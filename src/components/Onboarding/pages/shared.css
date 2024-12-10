@@ -1,0 +1,165 @@
+.onboarding-page {
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+  animation: slideUp 0.5s ease-out;
+}
+
+.onboarding-page h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.helper-text {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: #4CAF50;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+} 
+
+/* Add these animation keyframes */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Add animations to onboarding elements */
+.welcome-card,
+.goal-card,
+.preference-card {
+  animation: scaleIn 0.4s ease-out;
+}
+
+/* Add progress bar animation */
+.progress-bar {
+  transition: width 0.3s ease-out;
+}
+
+/* Add hover animations */
+.welcome-card:hover,
+.goal-card:hover,
+.preference-card:hover {
+  border-color: #4CAF50;
+}
+
+/* Add checkbox animations */
+.checkbox {
+  transition: all 0.2s ease;
+}
+
+.checkbox-inner {
+  transition: all 0.2s ease;
+}
+
+/* Add button animations */
+.nav-button {
+  transition: background-color 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: #45a049;
+}
+
+.nav-button:active {
+  transform: translateY(1px);
+}
+
+/* Add form transitions */
+.form-group input,
+.form-group select {
+  transition: border-color 0.2s ease;
+}
+
+/* Add page transition animations */
+.onboarding-content {
+  position: relative;
+}
+
+.page-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+  transition: all 0.3s ease-out;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 0.3s ease-out;
+} 
