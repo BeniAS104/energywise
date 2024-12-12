@@ -43,9 +43,6 @@
   border-radius: 4px;
 }
 
-.action-button:hover {
-  background: #f5f5f5;
-}
 
 .appliance-details {
   color: #666;
@@ -138,10 +135,10 @@
 .add-button {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
+  background-color: var(--green);
+  color: var(--black);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -149,11 +146,47 @@
   transition: background-color 0.2s;
 }
 
-.add-button:hover {
-  background-color: #45a049;
-}
 
 .add-icon {
-  font-size: 20px;
+  font-size: 25px;
   line-height: 1;
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background: var(--background-secondary);
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.empty-state-content {
+  text-align: center;
+  padding: 40px;
+  max-width: 400px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  color: var(--primary-text);
+  font-size: 24px;
+  margin: 0 0 12px 0;
+}
+
+.empty-state p {
+  color: var(--secondary-text);
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.empty-state .add-button {
+  margin: 0 auto;
+  display: inline-flex;
 } 

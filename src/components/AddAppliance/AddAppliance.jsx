@@ -59,10 +59,19 @@ export default function AddAppliance({ addAppliance }) {
             required
           >
             <option value="">Select type</option>
-            <option value="lighting">Lighting</option>
+            <option value="refrigerator">Refrigerator</option>
+            <option value="washingMachine">Washing Machine</option>
+            <option value="dishwasher">Dishwasher</option>
+            <option value="airConditioner">Air Conditioner</option>
+            <option value="waterHeater">Water Heater</option>
+            <option value="dryer">Dryer</option>
+            <option value="oven">Oven</option>
+            <option value="microwave">Microwave</option>
             <option value="computer">Computer</option>
-            <option value="cooking">Cooking</option>
-            <option value="cooling">Cooling</option>
+            <option value="television">Television</option>
+            <option value="lighting">Lighting</option>
+            <option value="dehumidifier">Dehumidifier</option>
+            <option value="electricHeater">Electric Heater</option>
           </select>
         </div>
 

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { auth } from '../../firebase';
+import { signOut } from 'firebase/auth';
 import './Header.css';
 
 export default function Header() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const location = useLocation();
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Close panel when clicking outside
   useEffect(() => {
@@ -25,34 +27,43 @@ export default function Header() {
     setIsPanelOpen(false);
   }, [location]);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
   const getPageTitle = () => {
     const path = location.pathname.substring(1);
-    return path.charAt(0).toUpperCase() + path.slice(1) || 'Analytics';
+    if (!path) return 'energywise.';
+    
+    return path
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   };
 
-  const menuItems = [
-    {
-      label: 'Personal Settings',
-      icon: '👤',
-      subItems: [
-        { label: 'Goals', path: '/goals', icon: '🎯' },
-        { label: 'Preferences', path: '/preferences', icon: '⚙️' }
-      ]
-    },
-    { label: 'Theme', path: '/theme', icon: '🎨' },
-    { label: 'Notifications', path: '/notifications', icon: '🔔' },
-    { label: 'Support', path: '/support', icon: '❓' }
-  ];
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  const handleDarkModeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   return (
     <>
       <header className="main-header">
         <div className="header-left">
-          <img 
-            src="/logopure.png" 
-            alt="EnergyWise Logo" 
-            className="logo"
-          />
+          <Link to="/appliances">
+            <img 
+              src="/logopure.png" 
+              alt="EnergyWise Logo" 
+              className="logo"
+            />
+          </Link>
         </div>
         
         <div className="header-center">
@@ -72,58 +83,72 @@ export default function Header() {
 
       <div className={`settings-panel-wrapper ${isPanelOpen ? 'open' : ''}`}>
         <div className="settings-panel">
-          <div className="panel-header">
-            <h2>Settings</h2>
-            <button 
-              className="close-button"
-              onClick={() => setIsPanelOpen(false)}
-              aria-label="Close settings"
-            >
-              ×
-            </button>
-          </div>
+          
 
           <nav className="settings-menu">
-            {menuItems.map((item, index) => (
-              <div key={index} className="menu-section">
-                {item.subItems ? (
-                  <>
-                    <div className="menu-section-header">
-                      <span className="menu-icon">{item.icon}</span>
-                      {item.label}
-                    </div>
-                    <div className="submenu">
-                      {item.subItems.map((subItem, subIndex) => (
-                        <Link 
-                          key={subIndex}
-                          to={subItem.path}
-                          className="menu-item submenu-item"
-                        >
-                          <span className="menu-icon">{subItem.icon}</span>
-                          {subItem.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <Link 
-                    to={item.path}
-                    className="menu-item"
-                  >
-                    <span className="menu-icon">{item.icon}</span>
-                    {item.label}
-                  </Link>
-                )}
+            <div className="menu-section">
+              <div className="menu-section-header">
+                <span>Personal Settings</span>
               </div>
-            ))}
-            
-            <button 
-              className="menu-item logout-button"
-              onClick={() => auth.signOut()}
-            >
-              <span className="menu-icon">🚪</span>
-              Logout
-            </button>
+              <div className="submenu">
+                <Link to="/account" className="menu-item">
+                  <span className="menu-icon">👤</span>
+                  Account
+                </Link>
+                <Link to="/preferences" className="menu-item">
+                  <span className="menu-icon">⚙️</span>
+                  Preferences
+                </Link>
+              </div>
+            </div>
+
+            <div className="menu-section">
+              <div className="menu-section-header">
+                <span>Display</span>
+              </div>
+              <div className="submenu">
+                <div 
+                  className="menu-item"
+                  onClick={handleDarkModeToggle}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span className="menu-icon">🌙</span>
+                  Dark Mode
+                  <label className="toggle-switch" onClick={e => e.stopPropagation()}>
+                    <input 
+                      type="checkbox"
+                      checked={isDarkMode}
+                      onChange={handleDarkModeToggle}
+                    />
+                    <span className="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="menu-section">
+              <div className="menu-section-header">
+                <span>Help</span>
+              </div>
+              <div className="submenu">
+                <Link to="/support" className="menu-item">
+                  <span className="menu-icon">❓</span>
+                  Support
+                </Link>
+              </div>
+            </div>
+
+            <div className="menu-section">
+              <div className="menu-section-header">
+                <span>Logout</span>
+              </div>
+              <div className="submenu">
+                <button onClick={handleSignOut} className="menu-item logout-button">
+                  <span className="menu-icon">🚪</span>
+                  Logout
+                </button>
+              </div>
+            </div>
           </nav>
         </div>
       </div>

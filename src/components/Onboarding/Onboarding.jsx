@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 // Import all required components
 import Welcome from './pages/Welcome';
 import LocationSelection from './pages/LocationSelection';
-import EnergyGoals from '../EnergyGoals/EnergyGoals';
 import Preferences from './pages/Preferences';
 import Complete from './pages/Complete';
 
@@ -21,7 +20,6 @@ export default function Onboarding({ completeOnboarding }) {
       region: '',
       energyUnit: 'kWh'
     },
-    energyGoals: [],
     preferences: {
       notifications: {
         email: false,
@@ -65,15 +63,6 @@ export default function Onboarding({ completeOnboarding }) {
         />
       ), 
       title: "Location Selection" 
-    },
-    { 
-      component: () => (
-        <EnergyGoals 
-          data={onboardingData.energyGoals}
-          updateData={(data) => updateOnboardingData('energyGoals', data)}
-        />
-      ), 
-      title: "Energy Goals" 
     },
     { 
       component: () => (

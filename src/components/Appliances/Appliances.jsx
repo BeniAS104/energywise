@@ -51,47 +51,65 @@ export default function Appliances({ appliances, onDelete, onEdit, energyCost })
 
   return (
     <div className="appliances-container">
-      <div className="appliances-header">
-        <h2>Your Appliances</h2>
-        <Link to="/add-appliance">
-          <button className="add-button">
-            <span className="add-icon">+</span>
-            Add New Appliance
-          </button>
-        </Link>
-      </div>
-      
-      <div className="appliances-grid">
-        {appliances.map(appliance => (
-          <div key={appliance.id} className="appliance-card">
-            <div className="appliance-header">
-              <h3>{appliance.name}</h3>
-              <div className="appliance-actions">
-                <button 
-                  onClick={() => handleEditClick(appliance)}
-                  className="action-button edit"
-                >
-                  ✏️
-                </button>
-                <button 
-                  onClick={() => handleDeleteClick(appliance)}
-                  className="action-button delete"
-                >
-                  🗑️
-                </button>
-              </div>
-            </div>
-            
-            <div className="appliance-details">
-              <p>Power: {appliance.watts}W</p>
-              <p>Usage: {appliance.hoursPerDay}h/day, {appliance.daysPerWeek}days/week</p>
-              <p className="cost-estimate">
-                Estimated monthly cost: ${calculateMonthlyCost(appliance)}
-              </p>
-            </div>
+      {appliances.length > 0 ? (
+        <>
+          <div className="appliances-header">
+            <h2>Your Appliances</h2>
+            <Link to="/add-appliance">
+              <button className="add-button">
+                <span className="add-icon">+</span>
+                Add New Appliance
+              </button>
+            </Link>
           </div>
-        ))}
-      </div>
+          
+          <div className="appliances-grid">
+            {appliances.map(appliance => (
+              <div key={appliance.id} className="appliance-card">
+                <div className="appliance-header">
+                  <h3>{appliance.name}</h3>
+                  <div className="appliance-actions">
+                    <button 
+                      onClick={() => handleEditClick(appliance)}
+                      className="action-button edit"
+                    >
+                      ✏️
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteClick(appliance)}
+                      className="action-button delete"
+                    >
+                      ❌
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="appliance-details">
+                  <p>Power: {appliance.watts}W</p>
+                  <p>Usage: {appliance.hoursPerDay}h/day, {appliance.daysPerWeek}days/week</p>
+                  <p className="cost-estimate">
+                    Estimated monthly cost: ${calculateMonthlyCost(appliance)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className="empty-state">
+          <div className="empty-state-content">
+            <span className="empty-icon">🔌</span>
+            <h3>No Appliances Yet</h3>
+            <p>Start tracking your energy usage by adding your first appliance.</p>
+            <Link to="/add-appliance">
+              <button className="add-button">
+                <span className="add-icon">+</span>
+                Add Your First Appliance
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Delete Confirmation Modal */}
       <Modal 

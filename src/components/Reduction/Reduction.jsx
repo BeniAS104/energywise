@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import './Reduction.css';
+import { Link } from 'react-router-dom';
 
-export default function Reduction({ appliances, energyGoals, energyCost }) {
+export default function Reduction({ appliances, energyCost }) {
   const calculateHighConsumptionAppliances = () => {
     return appliances
       .map(app => {
@@ -15,118 +16,193 @@ export default function Reduction({ appliances, energyGoals, energyCost }) {
 
   const getApplianceSpecificTips = (appliance) => {
     const tips = {
-      lighting: [
-        'Switch to LED bulbs to save up to 80% energy',
-        'Install motion sensors for automatic control',
-        'Utilize natural daylight when possible'
+      refrigerator: [
+        "Keep the temperature between 37-40°F (3-4°C)",
+        "Clean coils regularly to maintain efficiency",
+        "Check door seals for proper closure",
+        "Avoid placing hot food directly in the fridge"
+      ],
+      washingMachine: [
+        "Use cold water when possible",
+        "Run full loads only",
+        "Use high-spin speeds to reduce drying time",
+        "Clean the lint filter regularly"
+      ],
+      dishwasher: [
+        "Run only when full",
+        "Use eco mode when available",
+        "Skip the heat-dry cycle",
+        "Clean filters monthly"
+      ],
+      airConditioner: [
+        "Set temperature to 78°F (26°C) when home",
+        "Use programmable features",
+        "Clean filters monthly",
+        "Use ceiling fans to improve circulation"
+      ],
+      waterHeater: [
+        "Set temperature to 120°F (49°C)",
+        "Insulate the tank and pipes",
+        "Flush annually to remove sediment",
+        "Consider a timer for operation hours"
+      ],
+      dryer: [
+        "Clean lint filter before each use",
+        "Use moisture sensor if available",
+        "Dry similar fabrics together",
+        "Consider air-drying when possible"
+      ],
+      oven: [
+        "Use right-sized cookware",
+        "Avoid opening door while cooking",
+        "Use convection mode when possible",
+        "Batch cook when feasible"
+      ],
+      microwave: [
+        "Use for small portions instead of oven",
+        "Keep interior clean for efficiency",
+        "Use appropriate power levels",
+        "Cover food to reduce cooking time"
       ],
       computer: [
-        'Enable power-saving mode',
-        'Unplug chargers when not in use',
-        'Use a smart power strip to eliminate phantom power'
+        "Use sleep mode when inactive",
+        "Enable power management features",
+        "Unplug chargers when not in use",
+        "Consider using a laptop instead of desktop"
       ],
-      cooking: [
-        'Use lids while cooking to reduce energy loss',
-        'Match pot size to burner size',
-        'Use a microwave for small portions'
+      television: [
+        "Adjust brightness to room conditions",
+        "Enable auto-sleep features",
+        "Use energy-saving mode",
+        "Unplug when not in use for extended periods"
       ],
-      cooling: [
-        'Clean filters regularly',
-        'Set temperature to optimal 24°C (75°F)',
-        'Use ceiling fans to improve air circulation'
+      lighting: [
+        "Switch to LED bulbs",
+        "Use natural light when possible",
+        "Install motion sensors or timers",
+        "Clean bulbs and fixtures regularly"
+      ],
+      dehumidifier: [
+        "Clean filters regularly",
+        "Place away from walls for better airflow",
+        "Empty and clean water container regularly",
+        "Use auto-humidity settings"
+      ],
+      electricHeater: [
+        "Use programmable thermostat",
+        "Keep doors and windows sealed",
+        "Regular maintenance of heating elements",
+        "Consider zone heating"
       ]
     };
-    return tips[appliance.type] || [];
+
+    // Return default tips if no specific tips exist for the appliance type
+    return tips[appliance.type] || [
+      "Consider upgrading to an energy-efficient model",
+      "Regular maintenance improves efficiency",
+      "Use timers or smart plugs to avoid standby power",
+      "Monitor usage patterns to optimize operation times"
+    ];
   };
 
   const highConsumers = calculateHighConsumptionAppliances();
+  const hasAppliances = appliances.length > 0;
 
   return (
     <div className="reduction-container">
-      <h2>Energy Reduction Strategies</h2>
+
+<section className="general-tips-section">
+        <h3>General Savings Opportunities</h3>
+        <div className="tips-grid">
+          <div className="tip-card">
+            <span className="tip-icon">💰</span>
+            <h4>Cost Reduction</h4>
+            <ul>
+              <li>Use appliances during off-peak hours</li>
+              <li>Regular maintenance of all appliances</li>
+              <li>Consider upgrading to energy-efficient models</li>
+            </ul>
+          </div>
+          
+          <div className="tip-card">
+            <span className="tip-icon">🌱</span>
+            <h4>Eco-Friendly Practices</h4>
+            <ul>
+              <li>Use natural ventilation when possible</li>
+              <li>Maximize daylight usage</li>
+              <li>Consider solar panel installation</li>
+            </ul>
+          </div>
+
+          <div className="tip-card">
+            <span className="tip-icon">📊</span>
+            <h4>Usage Tracking Tips</h4>
+            <ul>
+              <li>Set up weekly energy usage reviews</li>
+              <li>Compare usage patterns month-over-month</li>
+              <li>Identify peak usage hours</li>
+              <li>Monitor standby power consumption</li>
+            </ul>
+          </div>
+
+          <div className="tip-card">
+            <span className="tip-icon">⚡</span>
+            <h4>Appliance Optimization</h4>
+            <ul>
+              <li>Schedule appliance usage during off-peak hours</li>
+              <li>Group similar tasks to reduce startup cycles</li>
+              <li>Regular maintenance schedule for efficiency</li>
+              <li>Consider smart plugs for automation</li>
+            </ul>
+          </div>
+        </div>
+      </section>
       
       <section className="high-consumption-section">
         <h3>Top Energy Consumers</h3>
-        <div className="appliance-cards">
-          {highConsumers.map(appliance => (
-            <div key={appliance.id} className="appliance-reduction-card">
-              <h4>{appliance.name}</h4>
-              <p className="consumption-stats">
-                {appliance.monthlyConsumption.toFixed(2)} kWh/month
-                <br />
-                ${(appliance.monthlyConsumption * energyCost).toFixed(2)}/month
-              </p>
-              <div className="tips-list">
-                <h5>Reduction Tips:</h5>
-                <ul>
-                  {getApplianceSpecificTips(appliance).map((tip, index) => (
-                    <li key={index}>{tip}</li>
-                  ))}
-                </ul>
+        {hasAppliances ? (
+          <div className="appliance-cards">
+            {highConsumers.map(appliance => (
+              <div key={appliance.id} className="appliance-reduction-card">
+                <h4>{appliance.name}</h4>
+                <p className="consumption-stats">
+                  {appliance.monthlyConsumption.toFixed(2)} kWh/month
+                  <br />
+                  ${(appliance.monthlyConsumption * energyCost).toFixed(2)}/month
+                </p>
+                <div className="tips-list">
+                  <h5>Reduction Tips:</h5>
+                  <ul>
+                    {getApplianceSpecificTips(appliance).map((tip, index) => (
+                      <li key={index}>{tip}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">
+            <div className="empty-state-content">
+              <span className="empty-icon">📊</span>
+              <h4>No Consumption Data Available</h4>
+              <p>Add your appliances to see your top energy consumers and get personalized reduction tips.</p>
+              <Link to="/appliances">
+                <button className="add-button">
+                  <span className="add-icon">+</span>
+                  Add Your First Appliance
+                </button>
+              </Link>
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </section>
 
-      <section className="general-tips-section">
-        <h3>General Savings Opportunities</h3>
-        <div className="tips-grid">
-          {energyGoals.includes('reduce-bill') && (
-            <div className="tip-card">
-              <span className="tip-icon">💰</span>
-              <h4>Cost Reduction</h4>
-              <ul>
-                <li>Use appliances during off-peak hours</li>
-                <li>Regular maintenance of all appliances</li>
-                <li>Consider upgrading to energy-efficient models</li>
-              </ul>
-            </div>
-          )}
-          
-          {energyGoals.includes('eco-friendly') && (
-            <div className="tip-card">
-              <span className="tip-icon">🌱</span>
-              <h4>Eco-Friendly Practices</h4>
-              <ul>
-                <li>Use natural ventilation when possible</li>
-                <li>Maximize daylight usage</li>
-                <li>Consider solar panel installation</li>
-              </ul>
-            </div>
-          )}
+      
 
-          {energyGoals.includes('track-usage') && (
-            <div className="tip-card">
-              <span className="tip-icon">📊</span>
-              <h4>Usage Tracking Tips</h4>
-              <ul>
-                <li>Set up weekly energy usage reviews</li>
-                <li>Compare usage patterns month-over-month</li>
-                <li>Identify peak usage hours</li>
-                <li>Monitor standby power consumption</li>
-              </ul>
-            </div>
-          )}
-
-          {energyGoals.includes('optimize') && (
-            <div className="tip-card">
-              <span className="tip-icon">⚡</span>
-              <h4>Appliance Optimization</h4>
-              <ul>
-                <li>Schedule appliance usage during off-peak hours</li>
-                <li>Group similar tasks to reduce startup cycles</li>
-                <li>Regular maintenance schedule for efficiency</li>
-                <li>Consider smart plugs for automation</li>
-              </ul>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {energyGoals.includes('track-usage') && (
-        <section className="usage-tracking-section">
-          <h3>Usage Patterns</h3>
+      <section className="usage-tracking-section">
+        <h3>Usage Patterns</h3>
+        {hasAppliances ? (
           <div className="usage-stats">
             <div className="stat-card">
               <h4>Peak Usage Times</h4>
@@ -152,12 +228,26 @@ export default function Reduction({ appliances, energyGoals, energyCost }) {
               </ul>
             </div>
           </div>
-        </section>
-      )}
+        ) : (
+          <div className="empty-state">
+            <div className="empty-state-content">
+              <span className="empty-icon">📈</span>
+              <h4>No Usage Patterns Yet</h4>
+              <p>Start tracking your appliances to see your usage patterns and identify optimization opportunities.</p>
+              <Link to="/appliances">
+                <button className="add-button">
+                  <span className="add-icon">+</span>
+                  Add Your First Appliance
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </section>
 
-      {energyGoals.includes('optimize') && (
-        <section className="optimization-section">
-          <h3>Optimization Opportunities</h3>
+      <section className="optimization-section">
+        <h3>Optimization Opportunities</h3>
+        {hasAppliances ? (
           <div className="optimization-cards">
             {highConsumers.map(appliance => {
               const potentialSavings = appliance.monthlyConsumption * 0.2; // Assume 20% potential reduction
@@ -178,8 +268,22 @@ export default function Reduction({ appliances, energyGoals, energyCost }) {
               );
             })}
           </div>
-        </section>
-      )}
+        ) : (
+          <div className="empty-state">
+            <div className="empty-state-content">
+              <span className="empty-icon">💡</span>
+              <h4>No Optimization Insights Available</h4>
+              <p>Add your appliances to receive personalized optimization recommendations and potential savings calculations.</p>
+              <Link to="/appliances">
+                <button className="add-button">
+                  <span className="add-icon">+</span>
+                  Add Your First Appliance
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </section>
     </div>
   );
 }
@@ -193,6 +297,5 @@ Reduction.propTypes = {
     daysPerWeek: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired
   })).isRequired,
-  energyGoals: PropTypes.arrayOf(PropTypes.string).isRequired,
   energyCost: PropTypes.number.isRequired
 }; 

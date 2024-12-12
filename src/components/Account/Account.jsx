@@ -1,38 +1,62 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { auth, database } from '../../firebase';
 import { ref, remove } from 'firebase/database';
 import { deleteUser } from 'firebase/auth';
+import { energyCosts, getAllRegions, getCountriesByRegion } from '../../data/energyCosts';
 import './Account.css';
 
-export default function Account({ 
-  userData = {
-    location: {
-      country: '',
-      countryName: '',
-      currency: 'USD'
-    }
-  }, 
-  onUpdateUserData 
-}) {
+export default function Account({ userData = {
+  location: {
+    country: '',
+    countryName: '',
+    currency: 'USD',
+    energyCost: 0.15
+  }
+}, onUpdateUserData }) {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState('');
+  const regions = getAllRegions();
+  
   const [editedData, setEditedData] = useState({
     location: {
       country: userData.location.country || '',
       countryName: userData.location.countryName || '',
-      currency: userData.location.currency || 'USD'
+      currency: userData.location.currency || 'USD',
+      energyCost: userData.location.energyCost || 0.15
     }
   });
-  
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'country') {
+
+  const getFilteredCountries = () => {
+    if (!selectedRegion) {
+      return Object.entries(energyCosts).map(([code, data]) => ({
+        code,
+        name: code, // You might want to add country names to your energyCosts data
+        ...data
+      }));
+    }
+    return getCountriesByRegion(selectedRegion);
+  };
+
+  const handleRegionChange = (e) => {
+    setSelectedRegion(e.target.value);
+  };
+
+  const handleCountryChange = (e) => {
+    const countryCode = e.target.value;
+    const countryData = energyCosts[countryCode];
+    
+    if (countryData) {
       setEditedData(prev => ({
         location: {
           ...prev.location,
-          country: value,
-          countryName: value
+          country: countryCode,
+          countryName: countryCode, // You might want to add country names to your data
+          currency: countryData.currency,
+          energyCost: countryData.cost
         }
       }));
     }
@@ -40,14 +64,14 @@ export default function Account({
 
   const handleSave = async () => {
     try {
-      const updateData = {
+      await onUpdateUserData({
         location: {
           country: editedData.location.country,
           countryName: editedData.location.countryName,
-          currency: editedData.location.currency
+          currency: editedData.location.currency,
+          energyCost: editedData.location.energyCost
         }
-      };
-      await onUpdateUserData(updateData);
+      });
       setIsEditing(false);
     } catch (error) {
       console.error('Error saving changes:', error);
@@ -59,6 +83,7 @@ export default function Account({
       const userRef = ref(database, `users/${auth.currentUser.uid}`);
       await remove(userRef);
       await deleteUser(auth.currentUser);
+      navigate('/');
     } catch (error) {
       console.error('Error deleting account:', error);
     }
@@ -78,22 +103,44 @@ export default function Account({
           {isEditing ? (
             <>
               <div className="info-row">
+                <span className="label">Region:</span>
+                <select
+                  value={selectedRegion}
+                  onChange={handleRegionChange}
+                  className="select-input"
+                >
+                  <option value="">All regions</option>
+                  {regions.map(region => (
+                    <option key={region} value={region}>{region}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="info-row">
                 <span className="label">Location:</span>
-                <input
-                  type="text"
+                <select
                   name="country"
                   value={editedData.location.country}
-                  onChange={handleInputChange}
-                  className="text-input"
-                  placeholder="Enter your location"
-                />
+                  onChange={handleCountryChange}
+                  className="select-input"
+                >
+                  <option value="">Select a country</option>
+                  {getFilteredCountries().map(country => (
+                    <option key={country.code} value={country.code}>
+                      {country.code} - {country.cost}$/kWh
+                    </option>
+                  ))}
+                </select>
               </div>
             </>
           ) : (
             <>
               <div className="info-row">
                 <span className="label">Location:</span>
-                <span className="value">{userData.location.countryName || 'Not set'}</span>
+                <span className="value">
+                  {userData.location.country ? 
+                    `${userData.location.country} (${userData.location.energyCost}$/kWh)` : 
+                    'Not set'}
+                </span>
               </div>
             </>
           )}

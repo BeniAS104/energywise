@@ -12,27 +12,28 @@
 }
 
 .summary-card {
-  background: white;
+  background: var(--background-primary);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow-color);
+  border: 1px solid var(--border-color);
 }
 
 .summary-card h3 {
   margin: 0;
-  color: #666;
+  color: var(--secondary-text);
   font-size: 16px;
 }
 
 .summary-value {
   font-size: 28px;
   font-weight: bold;
-  color: #333;
+  color: var(--primary-text);
   margin: 10px 0;
 }
 
 .comparison {
-  color: #666;
+  color: var(--secondary-text);
   font-size: 14px;
 }
 
@@ -43,15 +44,16 @@
 }
 
 .chart-container {
-  background: white;
+  background: var(--background-primary);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow-color);
+  border: 1px solid var(--border-color);
 }
 
 .chart-container h3 {
   margin: 0 0 20px;
-  color: #333;
+  color: var(--primary-text);
   font-size: 18px;
 }
 

@@ -15,8 +15,8 @@ export default function Preferences({ data, updateData }) {
 
   return (
     <div className="onboarding-page preferences-page">
-      <h2>Your Preferences</h2>
-      <p className="subtitle">Customize your experience</p>
+      <h2 className="location-text">Your Preferences</h2>
+      <p className="graycenter">Customize your notifications and report frequency</p>
 
       <div className="preferences-grid">
         <div className="preference-card">

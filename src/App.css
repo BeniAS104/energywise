@@ -94,11 +94,7 @@ body {
   transition: border-color 0.2s ease;
 }
 
-.form-group input:focus {
-  border-color: #4CAF50;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-}
+
 
 .error-message {
   color: #dc3545;
@@ -133,9 +129,7 @@ body {
   transition: background-color 0.2s ease;
 }
 
-.submit-button:hover {
-  background-color: #45a049;
-}
+
 
 .submit-button:active {
   transform: translateY(1px);
@@ -156,9 +150,7 @@ body {
   font-size: inherit;
 }
 
-.switch-button:hover {
-  text-decoration: underline;
-}
+
 
 @media (max-width: 480px) {
   .auth-card {
@@ -173,14 +165,15 @@ body {
 /* Dashboard Styles */
 .dashboard {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: var(--background-secondary);
 }
 
 .menu-nav {
   display: flex;
   justify-content: center;
-  padding: 1rem;
-  background-color: #f5f5f5;
+  padding: 1.5rem 1rem;
+  position: relative;
+  box-shadow: 0 1px 4px var(--gray);
 }
 
 .menu-nav ul {
@@ -197,19 +190,18 @@ body {
 
 .menu-nav a {
   text-decoration: none;
-  color: #333;
+  color: var(--black);
   padding: 0.5rem 1rem;
   border-radius: 4px;
   transition: all 0.2s;
 }
 
-.menu-nav a:hover {
-  background-color: #e0e0e0;
-}
 
 .menu-nav a.active {
-  background-color: #4CAF50;
-  color: white;
+  background-color: var(--green);
+  color: var(--black);
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
 /* Dashboard Content Styles */
@@ -217,6 +209,7 @@ body {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  color: var(--primary-text);
 }
 
 /* Loading State */
@@ -250,20 +243,19 @@ body {
 
 .page-content {
   padding: 20px;
-  background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
+  border: 1px solid var(--gray);
 }
 
 .page-content h2 {
-  color: #333;
+  color: var(--primary-text);
   margin-bottom: 20px;
   font-size: 24px;
 }
 
 .page-content p {
-  color: #666;
+  color: var(--secondary-text);
   line-height: 1.6;
 }
 
@@ -272,31 +264,28 @@ body {
 }
 
 .appliance-item {
-  background: #fff;
+  background: var(--background-primary);
   padding: 15px;
   margin-bottom: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow-color);
+  border: 1px solid var(--border-color);
 }
 
 .appliance-item h3 {
   margin: 0 0 10px;
+  color: var(--primary-text);
 }
 
 .appliance-item p {
   margin: 5px 0;
+  color: var(--secondary-text);
 }
 
-
-
-/* Add hover effects for interactive elements */
 .auth-switch button {
   transition: color 0.2s ease;
 }
 
-.auth-switch button:hover {
-  color: #45a049;
-}
 
 /* Add loading animation */
 @keyframes spin {
@@ -311,4 +300,33 @@ body {
   border-radius: 50%;
   border-top-color: #4CAF50;
   animation: spin 0.8s linear infinite;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.breathing-logo {
+  height: 150px;
+  width: auto;
+  animation: breathe 2s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
 }

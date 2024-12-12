@@ -2,20 +2,18 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import { auth, database } from './firebase';
 import { ref, set, get, push, remove, update } from 'firebase/database';
-import { Link, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, NavLink } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import Analytics from './components/Analytics/Analytics';
 import Appliances from './components/Appliances/Appliances';
 import Reduction from './components/Reduction/Reduction';
-import AddAppliance from './components/AddAppliance';
+import AddAppliance from './components/AddAppliance/AddAppliance';
 import Onboarding from './components/Onboarding/Onboarding';
 import Login from './components/Login/Login';
 import Preferences from './components/Onboarding/pages/Preferences';
 import Header from './components/Header/Header';
-import EnergyGoals from './components/EnergyGoals/EnergyGoals';
 import Account from './components/Account/Account';
-
-const DEFAULT_ENERGY_COST = 0.14; // Average electricity rate in USD/kWh
+import { energyCosts } from './data/energyCosts';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -29,7 +27,6 @@ function App() {
     energyUnit: 'kWh'
   });
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
-  const [userGoals, setUserGoals] = useState([]);
   const [userPreferences, setUserPreferences] = useState({
     notifications: {
       email: false,
@@ -123,7 +120,6 @@ function App() {
           currency: onboardingData.location.currency || 'USD',
           region: onboardingData.location.region || '',
           energyUnit: onboardingData.location.energyUnit || 'kWh',
-          energyGoals: onboardingData.energyGoals || [],
           preferences: onboardingData.preferences || {
             notifications: {
               email: false,
@@ -143,8 +139,6 @@ function App() {
           region: userData.region,
           energyUnit: userData.energyUnit
         });
-        setUserGoals(userData.energyGoals);
-        setUserPreferences(userData.preferences);
         setHasCompletedOnboarding(true);
       } catch (error) {
         console.error('Error saving onboarding data:', error);
@@ -231,16 +225,6 @@ function App() {
     }
   }, [user]);
 
-  const updateUserGoals = async (newGoals) => {
-    try {
-      const userRef = ref(database, `users/${user.uid}/goals`);
-      await set(userRef, newGoals);
-      setUserGoals(newGoals);
-    } catch (error) {
-      console.error('Error updating goals:', error);
-    }
-  };
-
   const updateUserData = async (updates) => {
     if (user) {
       try {
@@ -260,7 +244,11 @@ function App() {
   };
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="loading-container">
+        <img src="/logopure.png" alt="EnergyWise Logo" className="breathing-logo" />
+      </div>
+    );
   }
 
   return (
@@ -274,12 +262,10 @@ function App() {
           <Header />
           <nav className="menu-nav">
             <ul>
-              <li><Link to="/analytics">Analytics</Link></li>
-              <li><Link to="/appliances">Appliances</Link></li>
-              <li><Link to="/reduction">Reduction</Link></li>
-              <li><Link to="/preferences">Preferences</Link></li>
-              <li><Link to="/goals">Goals</Link></li>
-              <li><Link to="/account">Account</Link></li>
+              <li><NavLink to="/appliances">Appliances</NavLink></li>
+              <li><NavLink to="/analytics">Analytics</NavLink></li>
+              <li><NavLink to="/reduction">Reduction</NavLink></li>
+              
             </ul>
           </nav>
 
@@ -290,7 +276,7 @@ function App() {
                 element={
                   <Analytics 
                     appliances={appliances} 
-                    energyCost={DEFAULT_ENERGY_COST}
+                    energyCost={energyCosts[userLocation.country]?.cost || 0.15}
                   />
                 } 
               />
@@ -301,7 +287,7 @@ function App() {
                     appliances={appliances}
                     onDelete={deleteAppliance}
                     onEdit={editAppliance}
-                    energyCost={DEFAULT_ENERGY_COST}
+                    energyCost={energyCosts[userLocation.country]?.cost || 0.15}
                   />
                 } 
               />
@@ -310,8 +296,7 @@ function App() {
                 element={
                   <Reduction 
                     appliances={appliances}
-                    energyGoals={userGoals}
-                    energyCost={DEFAULT_ENERGY_COST}
+                    energyCost={energyCosts[userLocation.country]?.cost || 0.15}
                   />
                 } 
               />
@@ -322,15 +307,6 @@ function App() {
                   <Preferences 
                     data={userPreferences}
                     updateData={updateUserPreferences}
-                  />
-                } 
-              />
-              <Route 
-                path="/goals" 
-                element={
-                  <EnergyGoals 
-                    data={userGoals}
-                    updateData={updateUserGoals}
                   />
                 } 
               />
