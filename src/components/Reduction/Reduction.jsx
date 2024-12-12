@@ -95,8 +95,91 @@ export default function Reduction({ appliances, energyGoals, energyCost }) {
               </ul>
             </div>
           )}
+
+          {energyGoals.includes('track-usage') && (
+            <div className="tip-card">
+              <span className="tip-icon">📊</span>
+              <h4>Usage Tracking Tips</h4>
+              <ul>
+                <li>Set up weekly energy usage reviews</li>
+                <li>Compare usage patterns month-over-month</li>
+                <li>Identify peak usage hours</li>
+                <li>Monitor standby power consumption</li>
+              </ul>
+            </div>
+          )}
+
+          {energyGoals.includes('optimize') && (
+            <div className="tip-card">
+              <span className="tip-icon">⚡</span>
+              <h4>Appliance Optimization</h4>
+              <ul>
+                <li>Schedule appliance usage during off-peak hours</li>
+                <li>Group similar tasks to reduce startup cycles</li>
+                <li>Regular maintenance schedule for efficiency</li>
+                <li>Consider smart plugs for automation</li>
+              </ul>
+            </div>
+          )}
         </div>
       </section>
+
+      {energyGoals.includes('track-usage') && (
+        <section className="usage-tracking-section">
+          <h3>Usage Patterns</h3>
+          <div className="usage-stats">
+            <div className="stat-card">
+              <h4>Peak Usage Times</h4>
+              <p>Your highest energy consumption occurs between:</p>
+              <ul>
+                {highConsumers.map(appliance => (
+                  <li key={appliance.id}>
+                    {appliance.name}: {appliance.hoursPerDay} hours/day
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="stat-card">
+              <h4>Weekly Distribution</h4>
+              <p>Active days per appliance:</p>
+              <ul>
+                {highConsumers.map(appliance => (
+                  <li key={appliance.id}>
+                    {appliance.name}: {appliance.daysPerWeek} days/week
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {energyGoals.includes('optimize') && (
+        <section className="optimization-section">
+          <h3>Optimization Opportunities</h3>
+          <div className="optimization-cards">
+            {highConsumers.map(appliance => {
+              const potentialSavings = appliance.monthlyConsumption * 0.2; // Assume 20% potential reduction
+              return (
+                <div key={appliance.id} className="optimization-card">
+                  <h4>{appliance.name} Optimization</h4>
+                  <p>Potential monthly savings:</p>
+                  <div className="savings-estimate">
+                    <span className="kwh">{potentialSavings.toFixed(2)} kWh</span>
+                    <span className="cost">${(potentialSavings * energyCost).toFixed(2)}</span>
+                  </div>
+                  <div className="optimization-tips">
+                    <h5>Recommended Schedule:</h5>
+                    <p>Optimal usage: {Math.max(appliance.hoursPerDay - 2, 1)} hours/day</p>
+                    <p>Suggested days: {Math.min(appliance.daysPerWeek, 5)} days/week</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

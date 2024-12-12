@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import './shared.css';
 import './EnergyGoals.css';
 
 export default function EnergyGoals({ data, updateData }) {
@@ -34,7 +33,7 @@ export default function EnergyGoals({ data, updateData }) {
   };
 
   return (
-    <div className="energy-goals-page">
+    <div className="page-content">
       <h2>Energy Goals</h2>
       <p className="subtitle">What would you like to achieve?</p>
       <p className="helper-text">Select all that apply</p>
@@ -61,8 +60,4 @@ export default function EnergyGoals({ data, updateData }) {
 EnergyGoals.propTypes = {
   data: PropTypes.arrayOf(PropTypes.string).isRequired,
   updateData: PropTypes.func.isRequired
-};
-
-EnergyGoals.defaultProps = {
-  data: []
 };

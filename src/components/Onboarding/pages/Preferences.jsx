@@ -3,13 +3,6 @@ import './shared.css';
 import './Preferences.css';
 
 export default function Preferences({ data, updateData }) {
-  const handleChange = (field, value) => {
-    updateData({
-      ...data,
-      [field]: value
-    });
-  };
-
   const handleNotificationChange = (type) => {
     updateData({
       ...data,
@@ -27,24 +20,6 @@ export default function Preferences({ data, updateData }) {
 
       <div className="preferences-grid">
         <div className="preference-card">
-          <h3>Temperature Unit</h3>
-          <div className="toggle-group">
-            <button 
-              className={`toggle-button ${data.temperatureUnit === 'celsius' ? 'active' : ''}`}
-              onClick={() => handleChange('temperatureUnit', 'celsius')}
-            >
-              Celsius
-            </button>
-            <button 
-              className={`toggle-button ${data.temperatureUnit === 'fahrenheit' ? 'active' : ''}`}
-              onClick={() => handleChange('temperatureUnit', 'fahrenheit')}
-            >
-              Fahrenheit
-            </button>
-          </div>
-        </div>
-
-        <div className="preference-card">
           <h3>Notifications</h3>
           <div className="checkbox-group">
             <label className="checkbox-label">
@@ -53,7 +28,7 @@ export default function Preferences({ data, updateData }) {
                 checked={data.notifications.email}
                 onChange={() => handleNotificationChange('email')}
               />
-              <span>Email notifications</span>
+              Email notifications
             </label>
             <label className="checkbox-label">
               <input
@@ -61,7 +36,7 @@ export default function Preferences({ data, updateData }) {
                 checked={data.notifications.usageAlerts}
                 onChange={() => handleNotificationChange('usageAlerts')}
               />
-              <span>Usage alerts</span>
+              Usage alerts
             </label>
           </div>
         </div>
@@ -70,8 +45,11 @@ export default function Preferences({ data, updateData }) {
           <h3>Report Frequency</h3>
           <select
             value={data.reportFrequency}
-            onChange={(e) => handleChange('reportFrequency', e.target.value)}
-            className="frequency-select"
+            onChange={(e) => updateData({
+              ...data,
+              reportFrequency: e.target.value
+            })}
+            className="select-input"
           >
             <option value="weekly">Weekly</option>
             <option value="monthly">Monthly</option>
@@ -85,7 +63,6 @@ export default function Preferences({ data, updateData }) {
 
 Preferences.propTypes = {
   data: PropTypes.shape({
-    temperatureUnit: PropTypes.string.isRequired,
     notifications: PropTypes.shape({
       email: PropTypes.bool.isRequired,
       usageAlerts: PropTypes.bool.isRequired
@@ -97,7 +74,6 @@ Preferences.propTypes = {
 
 Preferences.defaultProps = {
   data: {
-    temperatureUnit: 'celsius',
     notifications: {
       email: false,
       usageAlerts: false

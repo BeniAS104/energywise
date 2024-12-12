@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // Import all required components
 import Welcome from './pages/Welcome';
 import LocationSelection from './pages/LocationSelection';
-import EnergyGoals from './pages/EnergyGoals';
+import EnergyGoals from '../EnergyGoals/EnergyGoals';
 import Preferences from './pages/Preferences';
 import Complete from './pages/Complete';
 
@@ -16,13 +16,13 @@ export default function Onboarding({ completeOnboarding }) {
     location: {
       country: '',
       countryName: '',
-      energyCost: null,
+      energyCost: 0,
       currency: 'USD',
-      region: ''
+      region: '',
+      energyUnit: 'kWh'
     },
     energyGoals: [],
     preferences: {
-      temperatureUnit: 'celsius',
       notifications: {
         email: false,
         usageAlerts: false
@@ -41,7 +41,14 @@ export default function Onboarding({ completeOnboarding }) {
   };
 
   const finishOnboarding = () => {
-    completeOnboarding(onboardingData);
+    const completeData = {
+      ...onboardingData,
+      location: {
+        ...onboardingData.location,
+        energyUnit: onboardingData.location.energyUnit || 'kWh'
+      }
+    };
+    completeOnboarding(completeData);
     navigate('/analytics');
   };
 

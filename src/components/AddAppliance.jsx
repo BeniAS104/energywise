@@ -6,7 +6,6 @@ export default function AddAppliance({ addAppliance }) {
   const [appliance, setAppliance] = useState({
     name: '',
     type: '',
-    room: '',
     watts: '',
     hoursPerDay: '',
     daysPerWeek: '7'
@@ -65,18 +64,6 @@ export default function AddAppliance({ addAppliance }) {
             <option value="cooking">Cooking</option>
             <option value="cooling">Cooling</option>
           </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="room">Room:</label>
-          <input
-            type="text"
-            id="room"
-            name="room"
-            value={appliance.room}
-            onChange={handleChange}
-            required
-          />
         </div>
 
         <div className="form-group">

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { ref, set } from 'firebase/database';
+import { database } from '../../firebase';
 import './Login.css';
 
 export default function Login() {
@@ -16,25 +18,22 @@ export default function Login() {
   const validateForm = () => {
     const newErrors = {};
     
-    // Email validation
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'Please enter your email address';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-
-    // Password validation
+    
     if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = 'Please enter your password';
+    } else if (!isLogin && formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters long';
     }
-
-    // Confirm password validation (only for signup)
+    
     if (!isLogin && formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -57,33 +56,55 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage('');
+    setErrors({}); // Clear previous errors
     
     if (!validateForm()) return;
 
     try {
       if (isLogin) {
+        console.log('Attempting login with:', formData.email); // Debug log
         await signInWithEmailAndPassword(auth, formData.email, formData.password);
       } else {
-        await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-        setSuccessMessage('Account created successfully! You can now log in.');
+        console.log('Attempting signup with:', formData.email); // Debug log
+        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+        
+        // Create initial user record in database
+        const userRef = ref(database, `users/${userCredential.user.uid}`);
+        await set(userRef, {
+            hasCompletedOnboarding: false
+        });
+        
+        setSuccessMessage('Account created successfully! You can now log in with your credentials.');
         setIsLogin(true);
       }
     } catch (err) {
-      const errorMessage = getFirebaseErrorMessage(err.code);
-      setErrors({ submit: errorMessage });
-    }
-  };
+      // Enhanced error logging
+      console.error('Firebase auth error:', {
+        code: err.code,
+        message: err.message,
+        fullError: err
+      });
 
-  const getFirebaseErrorMessage = (errorCode) => {
-    switch (errorCode) {
-      case 'auth/user-not-found':
-        return 'No account found with this email';
-      case 'auth/wrong-password':
-        return 'Incorrect password';
-      case 'auth/email-already-in-use':
-        return 'An account with this email already exists';
-      default:
-        return 'An error occurred. Please try again.';
+      // More specific error handling
+      if (err.code === 'auth/user-not-found') {
+        setErrors({
+          submit: 'No account exists with this email address. Please sign up first.',
+          email: 'Email not registered' // Additional field-specific error
+        });
+      } else if (err.code === 'auth/wrong-password') {
+        setErrors({
+          submit: 'Incorrect password. Please try again or use "Forgot Password".',
+          password: 'Invalid password' // Additional field-specific error
+        });
+      } else if (err.code === 'auth/invalid-credential') {
+        setErrors({
+          submit: 'Invalid email or password. Please check your credentials and try again.'
+        });
+      } else {
+        setErrors({
+          submit: `Authentication error: ${err.code || 'unknown error'}`
+        });
+      }
     }
   };
 
@@ -91,6 +112,7 @@ export default function Login() {
     <div className="login-container">
       <div className="login-content">
         <div className="login-header">
+            <img src="logopure.png" alt="energywiselogo" className="logologin" />
           <h1>energywise.</h1>
           <p className="tagline">Smart energy monitoring for a sustainable future</p>
         </div>
@@ -101,8 +123,19 @@ export default function Login() {
           {successMessage && (
             <p className="success-message">{successMessage}</p>
           )}
+          
           {errors.submit && (
-            <p className="error-message">{errors.submit}</p>
+            <div className="error-container">
+              <p className="error-message">{errors.submit}</p>
+              {isLogin && errors.email === 'Email not registered' && (
+                <button 
+                  className="switch-auth-mode"
+                  onClick={() => setIsLogin(false)}
+                >
+                  Create an account instead
+                </button>
+              )}
+            </div>
           )}
           
           <form onSubmit={handleSubmit}>

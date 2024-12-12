@@ -1,39 +1,58 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { getEnergyCostForCountry, getAllRegions } from '../../../data/energyCosts';
+import './LocationSelection.css';
 
 export default function LocationSelection({ data, updateData }) {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
   const [selectedRegion, setSelectedRegion] = useState('');
   const regions = getAllRegions();
 
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch('https://restcountries.com/v3.1/all');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const responseData = await response.json();
-        const sortedCountries = responseData
-          .map(country => ({
-            name: country.name.common,
-            code: country.cca2
-          }))
-          .sort((a, b) => a.name.localeCompare(b.name));
-        setCountries(sortedCountries);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching countries:', error);
-        setError('Unable to load countries. Please try refreshing the page.');
+  const fetchCountries = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch('https://restcountries.com/v3.1/all', {
+        headers: {
+          'Accept': 'application/json'
+        },
+        cache: 'default'
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      const sortedCountries = responseData
+        .map(country => ({
+          name: country.name.common,
+          code: country.cca2
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      setCountries(sortedCountries);
+      setLoading(false);
+      setRetryCount(0);
+    } catch (error) {
+      console.error('Error fetching countries:', error);
+      if (retryCount < 3) {
+        const delay = Math.pow(2, retryCount) * 1000;
+        setRetryCount(prev => prev + 1);
+        setTimeout(fetchCountries, delay);
+      } else {
+        setError('Unable to load countries. Please refresh the page or try again later.');
         setLoading(false);
       }
-    };
+    }
+  }, [retryCount]);
 
+  useEffect(() => {
     fetchCountries();
-  }, []);
+  }, [fetchCountries]);
 
   const handleCountryChange = (e) => {
     const countryCode = e.target.value;
@@ -58,61 +77,69 @@ export default function LocationSelection({ data, updateData }) {
       })
     : countries;
 
-  if (loading) return <div className="loading-message">Loading countries...</div>;
-  if (error) return (
-    <div className="error-container">
-      <div className="error-message">{error}</div>
-      <button 
-        onClick={() => window.location.reload()}
-        className="retry-button"
-      >
-        Retry
-      </button>
+  if (loading) return (
+    <div className="loading-message">
+      <div className="loading-spinner"></div>
+      Loading countries... {retryCount > 0 ? `(Attempt ${retryCount + 1}/4)` : ''}
     </div>
   );
+  if (error) return <div className="error-message">{error}</div>;
 
   return (
-    <div className="onboarding-page">
+    <div className="location-selection-page">
       <h2>Your Location</h2>
-      <p>Help us provide accurate energy costs for your region:</p>
+      <p className="subtitle">Help us provide accurate energy costs for your region</p>
       
-      <div className="form-group">
-        <label htmlFor="region">Filter by region:</label>
-        <select
-          id="region"
-          value={selectedRegion}
-          onChange={(e) => setSelectedRegion(e.target.value)}
-        >
-          <option value="">All regions</option>
-          {regions.map(region => (
-            <option key={region} value={region}>{region}</option>
-          ))}
-        </select>
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="country">Select your country:</label>
-        <select
-          id="country"
-          value={data.country || ''}
-          onChange={handleCountryChange}
-        >
-          <option value="">Select a country</option>
-          {filteredCountries.map(country => (
-            <option key={country.code} value={country.code}>
-              {country.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {data.energyCost && (
-        <div className="energy-cost-info">
-          <p>Average energy cost in {data.countryName}:</p>
-          <h3>${data.energyCost.toFixed(2)} per kWh</h3>
-          <small>* This is an average estimate and may vary by provider</small>
+      <div className="selection-container">
+        <div className="form-group">
+          <label htmlFor="region">Filter by region</label>
+          <select
+            id="region"
+            value={selectedRegion}
+            onChange={(e) => setSelectedRegion(e.target.value)}
+            className="select-input"
+          >
+            <option value="">All regions</option>
+            {regions.map(region => (
+              <option key={region} value={region}>{region}</option>
+            ))}
+          </select>
         </div>
-      )}
+
+        <div className="form-group">
+          <label htmlFor="country">Select your country</label>
+          <select
+            id="country"
+            value={data.country || ''}
+            onChange={handleCountryChange}
+            className="select-input"
+          >
+            <option value="">Select a country</option>
+            {filteredCountries.map(country => (
+              <option key={country.code} value={country.code}>
+                {country.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {data.country && data.energyCost > 0 && (
+          <div className="energy-cost-card">
+            <div className="cost-header">
+              <span className="location-icon">📍</span>
+              <h3>{data.countryName}</h3>
+            </div>
+            <div className="cost-details">
+              <p>Average energy cost:</p>
+              <div className="cost-value">
+                ${data.energyCost.toFixed(2)}
+                <span className="cost-unit">per kWh</span>
+              </div>
+            </div>
+            <p className="cost-disclaimer">* This is an average estimate and may vary by provider</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

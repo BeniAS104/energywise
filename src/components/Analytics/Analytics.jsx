@@ -83,6 +83,36 @@ export default function Analytics({ appliances, energyCost }) {
     }]
   };
 
+  // Add this new data preparation for Cost vs Consumption
+  const costVsConsumptionData = {
+    labels: appliances.map(app => app.name),
+    datasets: [
+      {
+        label: 'Consumption (kWh)',
+        data: appliances.map(app => {
+          const hoursPerMonth = app.hoursPerDay * app.daysPerWeek * 4;
+          return ((app.watts / 1000) * hoursPerMonth).toFixed(2);
+        }),
+        borderColor: '#4BC0C0',
+        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+        yAxisID: 'consumption',
+        tension: 0.4
+      },
+      {
+        label: 'Cost ($)',
+        data: appliances.map(app => {
+          const hoursPerMonth = app.hoursPerDay * app.daysPerWeek * 4;
+          const kWh = (app.watts / 1000) * hoursPerMonth;
+          return (kWh * energyCost).toFixed(2);
+        }),
+        borderColor: '#FF6384',
+        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+        yAxisID: 'cost',
+        tension: 0.4
+      }
+    ]
+  };
+
   return (
     <div className="analytics-container">
       <h2>Energy Analytics</h2>
@@ -149,6 +179,52 @@ export default function Analytics({ appliances, energyCost }) {
               plugins: {
                 legend: {
                   display: false
+                }
+              }
+            }}
+          />
+        </div>
+
+        <div className="chart-container">
+          <h3>Cost vs Consumption Trend</h3>
+          <Line 
+            data={costVsConsumptionData}
+            options={{
+              responsive: true,
+              interaction: {
+                mode: 'index',
+                intersect: false,
+              },
+              plugins: {
+                legend: {
+                  position: 'top',
+                },
+                tooltip: {
+                  mode: 'index',
+                  intersect: false
+                }
+              },
+              scales: {
+                consumption: {
+                  type: 'linear',
+                  display: true,
+                  position: 'left',
+                  title: {
+                    display: true,
+                    text: 'Consumption (kWh)'
+                  }
+                },
+                cost: {
+                  type: 'linear',
+                  display: true,
+                  position: 'right',
+                  title: {
+                    display: true,
+                    text: 'Cost ($)'
+                  },
+                  grid: {
+                    drawOnChartArea: false
+                  }
                 }
               }
             }}

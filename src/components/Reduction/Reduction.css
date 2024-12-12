@@ -89,9 +89,94 @@
   margin-bottom: 8px;
 }
 
+.usage-tracking-section,
+.optimization-section {
+  margin-top: 40px;
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.usage-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h4 {
+  color: #4CAF50;
+  margin: 0 0 15px;
+}
+
+.optimization-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.optimization-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.savings-estimate {
+  background: #f0f7f0;
+  padding: 15px;
+  border-radius: 6px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.savings-estimate .kwh {
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+.savings-estimate .cost {
+  color: #2196F3;
+  font-weight: 500;
+}
+
+.optimization-tips {
+  margin-top: 15px;
+}
+
+.optimization-tips h5 {
+  color: #4CAF50;
+  margin: 0 0 10px;
+}
+
+.optimization-tips p {
+  color: #666;
+  margin: 5px 0;
+}
+
 @media (max-width: 768px) {
   .appliance-cards,
   .tips-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .usage-stats,
+  .optimization-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .usage-tracking-section,
+  .optimization-section {
+    padding: 20px;
   }
 } 
