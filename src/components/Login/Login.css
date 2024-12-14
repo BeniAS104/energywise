@@ -86,15 +86,16 @@ color: var(--white);
   font-size: 0.9rem;
 }
 
-.toggle-button {
-  background: none;
-  border: none;
-  color: var(--green);
+.signup-button {
+  background: var(--blue);
+  padding: 0.5rem 0.8rem;
+  color: var(--white);
   cursor: pointer;
   font-size: inherit;
-  padding: 0;
+  border: none;
   margin-left: 0.25rem;
   font-weight: 500;
+  border-radius: 8px;
 }
 
 
@@ -110,4 +111,23 @@ color: var(--white);
   .tagline {
     font-size: 1rem;
   }
+  .logologin {
+    height: 230px;
+  }
+  .onboarding-page h2 {
+    font-size: 1.5rem;
+  }
 } 
+@media (max-height: 700px) { 
+  .logologin {
+    height: 200px;
+  }
+  .login-box {
+    padding: 1rem;
+  }
+  .toggle-form {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+}

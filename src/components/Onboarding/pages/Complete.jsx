@@ -8,7 +8,7 @@ export default function Complete() {
         <ul>
           <li>Add your first appliance</li>
           <li>Explore your dashboard</li>
-          <li>Set up your first energy-saving goal</li>
+          <li>See possible savings in the Reduction section</li>
         </ul>
       </div>
     </div>

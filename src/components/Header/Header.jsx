@@ -95,7 +95,7 @@ export default function Header() {
               </div>
               <div className="submenu">
                 <Link to="/account" className="menu-item">
-                  <span className="menu-icon">👤</span>
+                  <span className="menu-icon">👨🏻‍💻</span>
                   Account
                 </Link>
                 <Link to="/preferences" className="menu-item">

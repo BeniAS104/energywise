@@ -27,6 +27,108 @@ ChartJS.register(
   ArcElement
 );
 
+// First, create a common options object for chart configurations
+const chartOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+      labels: {
+        color: 'var(--black)',
+        font: {
+          size: 15,
+          weight: 600
+        }
+      }
+    },
+    tooltip: {
+      titleColor: 'var(--black)',
+      bodyColor: 'var(--black)',
+      backgroundColor: 'var(--white)',
+      borderColor: 'var(--gray)',
+      borderWidth: 1,
+      titleFont: {
+        size: 16,
+        weight: 600
+      },
+      bodyFont: {
+        size: 13,
+        weight: 400
+      }
+    }
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: 'var(--black)',
+        font: {
+          size: 14
+        }
+      },
+      grid: {
+        color: 'var(--light-gray)',
+        lineWidth: 0.8
+      }
+    },
+    y: {
+      ticks: {
+        color: 'var(--black)',
+        font: {
+          size: 12
+        }
+      },
+      grid: {
+        color: 'var(--light-gray)',
+        lineWidth: 0.5
+      }
+    }
+  },
+  elements: {
+    line: {
+      borderWidth: 3
+    },
+    point: {
+      radius: 4,
+      hoverRadius: 6
+    },
+    bar: {
+      borderWidth: 1
+    }
+  }
+};
+
+// For the Doughnut chart, create a specific options object (no scales needed)
+const doughnutOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+      labels: {
+        color: 'var(--black)',
+        font: {
+          size: 14,
+          weight: 500
+        }
+      }
+    },
+    tooltip: {
+      titleColor: 'var(--black)',
+      bodyColor: 'var(--black)',
+      backgroundColor: 'var(--white)',
+      borderColor: 'var(--gray)',
+      borderWidth: 1,
+      titleFont: {
+        size: 14,
+        weight: 600
+      },
+      bodyFont: {
+        size: 13,
+        weight: 400
+      }
+    }
+  }
+};
+
 export default function Analytics({ appliances, energyCost }) {
   // Calculate total monthly consumption and cost
   const totalMonthlyConsumption = appliances.reduce((total, appliance) => {
@@ -144,14 +246,7 @@ export default function Analytics({ appliances, energyCost }) {
           <h3>Appliance Energy Distribution</h3>
           <Doughnut 
             data={applianceConsumptionData}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'bottom'
-                }
-              }
-            }}
+            options={doughnutOptions}
           />
         </div>
 
@@ -159,14 +254,7 @@ export default function Analytics({ appliances, energyCost }) {
           <h3>Consumption Comparison</h3>
           <Bar 
             data={comparisonData}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  display: false
-                }
-              }
-            }}
+            options={chartOptions}
           />
         </div>
 
@@ -174,14 +262,7 @@ export default function Analytics({ appliances, energyCost }) {
           <h3>Daily Usage Pattern</h3>
           <Line 
             data={dailyUsageData}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  display: false
-                }
-              }
-            }}
+            options={chartOptions}
           />
         </div>
 

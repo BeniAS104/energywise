@@ -118,7 +118,7 @@ export default function Login() {
         </div>
 
         <div className="login-box">
-          <h2>{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
+          <h2>{isLogin ? 'Welcome Back' : 'Create your Account'}</h2>
           
           {successMessage && (
             <p className="success-message">{successMessage}</p>
@@ -190,7 +190,7 @@ export default function Login() {
           <p className="toggle-form">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <button 
-              className="toggle-button"
+              className="signup-button"
               onClick={() => {
                 setIsLogin(!isLogin);
                 setFormData({ email: '', password: '', confirmPassword: '' });

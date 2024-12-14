@@ -53,6 +53,12 @@
 .general-tips-section {
   margin-top: 40px;
 }
+.flexer {
+  display: flex;
+  align-items: center;
+  
+  gap: 0.5rem;
+}
 
 .tips-grid {
   display: grid;
@@ -70,7 +76,7 @@
 
 .tip-icon {
   font-size: 24px;
-  margin-bottom: 10px;
+  
   display: block;
 }
 

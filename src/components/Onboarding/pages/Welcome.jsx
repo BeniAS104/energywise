@@ -6,7 +6,7 @@ export default function Welcome() {
     <div className="onboarding-page welcome-page">
       <h2>Welcome to EnergyWise 👋</h2>
       <p className="subtitle">Let&apos;s get started on your energy-saving journey!</p>
-      <p className="subtitle">Energywise is here to help you with:</p>
+      <p className="subtitle">Energywise is here to help you to:</p>
       
       <div className="welcome-cards">
         <div className="welcome-card">

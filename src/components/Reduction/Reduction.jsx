@@ -112,11 +112,12 @@ export default function Reduction({ appliances, energyCost }) {
     <div className="reduction-container">
 
 <section className="general-tips-section">
-        <h3>General Savings Opportunities</h3>
+        <h2>General Savings Opportunities</h2>
         <div className="tips-grid">
           <div className="tip-card">
-            <span className="tip-icon">💰</span>
-            <h4>Cost Reduction</h4>
+            <div className="flexer">
+            <h3>Cost Reduction</h3>
+            <span className="tip-icon">💰</span></div>
             <ul>
               <li>Use appliances during off-peak hours</li>
               <li>Regular maintenance of all appliances</li>
@@ -125,8 +126,9 @@ export default function Reduction({ appliances, energyCost }) {
           </div>
           
           <div className="tip-card">
-            <span className="tip-icon">🌱</span>
-            <h4>Eco-Friendly Practices</h4>
+            <div className="flexer">
+            <h3>Eco-Friendly Practices</h3>
+            <span className="tip-icon">🌱</span></div>
             <ul>
               <li>Use natural ventilation when possible</li>
               <li>Maximize daylight usage</li>
@@ -135,8 +137,9 @@ export default function Reduction({ appliances, energyCost }) {
           </div>
 
           <div className="tip-card">
-            <span className="tip-icon">📊</span>
-            <h4>Usage Tracking Tips</h4>
+            <div className="flexer">
+            <h3>Usage Tracking Tips</h3>
+            <span className="tip-icon">📊</span></div>
             <ul>
               <li>Set up weekly energy usage reviews</li>
               <li>Compare usage patterns month-over-month</li>
@@ -146,8 +149,9 @@ export default function Reduction({ appliances, energyCost }) {
           </div>
 
           <div className="tip-card">
-            <span className="tip-icon">⚡</span>
-            <h4>Appliance Optimization</h4>
+            <div className="flexer">
+            <h3>Appliance Optimization </h3>
+            <span className="tip-icon">⚡</span></div>
             <ul>
               <li>Schedule appliance usage during off-peak hours</li>
               <li>Group similar tasks to reduce startup cycles</li>
@@ -159,7 +163,7 @@ export default function Reduction({ appliances, energyCost }) {
       </section>
       
       <section className="high-consumption-section">
-        <h3>Top Energy Consumers</h3>
+        <h2>Top Energy Consumers</h2>
         {hasAppliances ? (
           <div className="appliance-cards">
             {highConsumers.map(appliance => (
@@ -201,7 +205,7 @@ export default function Reduction({ appliances, energyCost }) {
       
 
       <section className="usage-tracking-section">
-        <h3>Usage Patterns</h3>
+        <h2>Usage Patterns</h2>
         {hasAppliances ? (
           <div className="usage-stats">
             <div className="stat-card">
@@ -246,7 +250,7 @@ export default function Reduction({ appliances, energyCost }) {
       </section>
 
       <section className="optimization-section">
-        <h3>Optimization Opportunities</h3>
+        <h2>Optimization Opportunities</h2>
         {hasAppliances ? (
           <div className="optimization-cards">
             {highConsumers.map(appliance => {
