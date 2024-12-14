@@ -46,6 +46,7 @@ export default function AddAppliance({ addAppliance }) {
             value={appliance.name}
             onChange={handleChange}
             required
+            className="input-fix"
           />
         </div>
 
@@ -85,6 +86,7 @@ export default function AddAppliance({ addAppliance }) {
             onChange={handleChange}
             min="0"
             required
+            className="input-fix"
           />
         </div>
 
@@ -99,6 +101,7 @@ export default function AddAppliance({ addAppliance }) {
             min="0"
             max="24"
             required
+            className="input-fix"
           />
         </div>
 
@@ -113,6 +116,7 @@ export default function AddAppliance({ addAppliance }) {
             min="1"
             max="7"
             required
+            className="input-fix"
           />
         </div>
 

@@ -83,6 +83,9 @@ export default function Header() {
 
       <div className={`settings-panel-wrapper ${isPanelOpen ? 'open' : ''}`}>
         <div className="settings-panel">
+          <div className="panel-header">
+            
+          </div>
           
 
           <nav className="settings-menu">

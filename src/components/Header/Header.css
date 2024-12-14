@@ -4,9 +4,12 @@
   align-items: center;
   padding: 1rem 2rem;
   position: relative;
-  z-index: 998;
-  box-shadow: 0 1px 1.5px var(--gray);
+  z-index: 1001;
+  background-color: var(--white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  
 }
+  
+
 
 .header-left, .header-right {
   flex: 1;
@@ -24,7 +27,7 @@
 .header-center h1 {
   margin: 0;
   font-size: 1.5rem;
-  color: #333;
+  color: var(--black);
 }
 
 .logo {
@@ -139,6 +142,7 @@
 /* Add push effect to main content */
 .dashboard {
   transition: transform 0.3s ease;
+  background-color: var(--light-gray);
 }
 
 .settings-panel-wrapper.open + .dashboard {
@@ -235,13 +239,13 @@
   width: 18px;
   left: 3px;
   bottom: 3px;
-  background-color: white;
+  background-color: var(--white);
   transition: .4s;
   border-radius: 50%;
 }
 
 input:checked + .toggle-slider {
-  background-color: #4CAF50;
+  background-color: var(--green);
 }
 
 input:checked + .toggle-slider:before {
@@ -253,8 +257,6 @@ input:checked + .toggle-slider:before {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: var(--background-primary);
-  border-bottom: 1px solid var(--border-color);
 }
 
 .logo a {
@@ -291,7 +293,7 @@ input:checked + .toggle-slider:before {
   border: none;
   border-radius: 4px;
   background-color: var(--danger-color);
-  color: white;
+  color: var(--white);
   cursor: pointer;
   transition: background-color 0.2s;
 }

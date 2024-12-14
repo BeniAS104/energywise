@@ -34,7 +34,7 @@ export default function Account({ userData = {
     if (!selectedRegion) {
       return Object.entries(energyCosts).map(([code, data]) => ({
         code,
-        name: code, // You might want to add country names to your energyCosts data
+        name: data.name,
         ...data
       }));
     }
@@ -54,7 +54,7 @@ export default function Account({ userData = {
         location: {
           ...prev.location,
           country: countryCode,
-          countryName: countryCode, // You might want to add country names to your data
+          countryName: countryData.name,
           currency: countryData.currency,
           energyCost: countryData.cost
         }
@@ -126,7 +126,7 @@ export default function Account({ userData = {
                   <option value="">Select a country</option>
                   {getFilteredCountries().map(country => (
                     <option key={country.code} value={country.code}>
-                      {country.code} - {country.cost}$/kWh
+                      {country.name} - {country.cost}$/kWh
                     </option>
                   ))}
                 </select>
@@ -138,7 +138,7 @@ export default function Account({ userData = {
                 <span className="label">Location:</span>
                 <span className="value">
                   {userData.location.country ? 
-                    `${userData.location.country} (${userData.location.energyCost}$/kWh)` : 
+                    energyCosts[userData.location.country]?.name || userData.location.country : 
                     'Not set'}
                 </span>
               </div>
@@ -215,7 +215,8 @@ Account.propTypes = {
     location: PropTypes.shape({
       country: PropTypes.string,
       countryName: PropTypes.string,
-      currency: PropTypes.string
+      currency: PropTypes.string,
+      energyCost: PropTypes.number
     })
   }),
   onUpdateUserData: PropTypes.func.isRequired

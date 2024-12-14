@@ -18,11 +18,11 @@
 
 .login-header {
   margin-bottom: 2rem;
-  color: white;
+  color: var(--white);
 }
 
 .login-header h1 {
-  color: white;
+  color: var(--white);
   font-size: 2.5rem;
   margin: 0;
   font-weight: 700;
@@ -30,14 +30,14 @@
 }
 
 .tagline {
-color: white;
+color: var(--white);
   margin: 0.5rem 0 0;
   opacity: 0.9;
   font-size: 1.1rem;
 }
 
 .login-box {
-  background: white;
+  background: var(--white);
   padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -52,28 +52,30 @@ color: white;
 
 
 .form-group input.error {
-  border-color: #dc3545;
+  border-color: var(--red);
 }
 
 
 .field-error {
-  color: #dc3545;
+  color: var(--red);
   font-size: 0.85rem;
   margin-top: 0.25rem;
   display: block;
 }
 
 .submit-button {
+  margin-top: 1rem;
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-  color: white;
+  background: var(--green);
+  color: var(--black);
   border: none;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: transform 0.2s;
+
 }
 
 
@@ -87,7 +89,7 @@ color: white;
 .toggle-button {
   background: none;
   border: none;
-  color: #4CAF50;
+  color: var(--green);
   cursor: pointer;
   font-size: inherit;
   padding: 0;

@@ -12,11 +12,10 @@
 }
 
 .summary-card {
-  background: var(--background-primary);
+  background: var(--white);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px var(--shadow-color);
-  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .summary-card h3 {
@@ -44,11 +43,10 @@
 }
 
 .chart-container {
-  background: var(--background-primary);
+  background: var(--white);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px var(--shadow-color);
-  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .chart-container h3 {

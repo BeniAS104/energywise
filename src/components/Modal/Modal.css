@@ -12,13 +12,13 @@
 }
 
 .modal-content {
-  background: var(--background-primary);
+  background: var(--white);
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
-  color: var(--primary-text);
+  color: var(--black);
   border: 1px solid var(--border-color);
 }
 
@@ -27,7 +27,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .modal-header h3 {
