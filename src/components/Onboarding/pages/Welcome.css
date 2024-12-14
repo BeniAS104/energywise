@@ -6,7 +6,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-  margin: 20px 0;
+  margin: 40px 0;
 }
 
 .welcome-card {
@@ -41,7 +41,7 @@
   justify-content: center;
   gap: 8px;
   margin-top: 10px;
-  color: #666;
+  color: var(--black);
 }
 
 .clock-icon {

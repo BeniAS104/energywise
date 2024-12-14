@@ -30,6 +30,7 @@ ChartJS.register(
 // First, create a common options object for chart configurations
 const chartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: 'bottom',
@@ -38,7 +39,8 @@ const chartOptions = {
         font: {
           size: 15,
           weight: 600
-        }
+        },
+        padding: 15
       }
     },
     tooltip: {
@@ -54,45 +56,51 @@ const chartOptions = {
       bodyFont: {
         size: 13,
         weight: 400
-      }
+      },
+      padding: 10
     }
   },
   scales: {
     x: {
       ticks: {
-        color: 'var(--black)',
+        color: 'var(--gray)',
         font: {
           size: 14
         }
       },
       grid: {
         color: 'var(--light-gray)',
-        lineWidth: 0.8
+        lineWidth: 1
       }
     },
     y: {
       ticks: {
-        color: 'var(--black)',
+        color: 'var(--gray)',
         font: {
           size: 12
         }
       },
       grid: {
         color: 'var(--light-gray)',
-        lineWidth: 0.5
+        lineWidth: 1
       }
     }
   },
   elements: {
     line: {
-      borderWidth: 3
+      borderWidth: 3,
+      borderColor: 'var(--green)'
     },
     point: {
       radius: 4,
-      hoverRadius: 6
+      hoverRadius: 6,
+      backgroundColor: 'var(--white)',
+      borderColor: 'var(--green)',
+      borderWidth: 2
     },
     bar: {
-      borderWidth: 1
+      backgroundColor: 'var(--blue)',
+      borderWidth: 0
     }
   }
 };
@@ -100,15 +108,18 @@ const chartOptions = {
 // For the Doughnut chart, create a specific options object (no scales needed)
 const doughnutOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: 'bottom',
       labels: {
         color: 'var(--black)',
         font: {
-          size: 14,
+          size: 12,
           weight: 500
-        }
+        },
+        padding: 15,
+        boxWidth: 12
       }
     },
     tooltip: {
@@ -119,12 +130,15 @@ const doughnutOptions = {
       borderWidth: 1,
       titleFont: {
         size: 14,
+        color: 'var(--black)',
         weight: 600
       },
       bodyFont: {
-        size: 13,
+        size: 12,
+        color: 'var(--black)',
         weight: 400
-      }
+      },
+      padding: 10
     }
   }
 };
@@ -180,8 +194,10 @@ export default function Analytics({ appliances, energyCost }) {
       label: 'Hours per Day',
       data: appliances.map(app => app.hoursPerDay),
       borderColor: '#4BC0C0',
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      tension: 0.4
+      backgroundColor: 'rgba(75, 192, 192, 0.1)',
+      borderWidth: 2,
+      tension: 0.4,
+      fill: true
     }]
   };
 
@@ -197,8 +213,10 @@ export default function Analytics({ appliances, energyCost }) {
         }),
         borderColor: '#4BC0C0',
         backgroundColor: 'rgba(75, 192, 192, 0.1)',
+        borderWidth: 2,
         yAxisID: 'consumption',
-        tension: 0.4
+        tension: 0.4,
+        fill: true
       },
       {
         label: 'Cost ($)',
@@ -209,8 +227,10 @@ export default function Analytics({ appliances, energyCost }) {
         }),
         borderColor: '#FF6384',
         backgroundColor: 'rgba(255, 99, 132, 0.1)',
+        borderWidth: 2,
         yAxisID: 'cost',
-        tension: 0.4
+        tension: 0.4,
+        fill: true
       }
     ]
   };
@@ -272,6 +292,7 @@ export default function Analytics({ appliances, energyCost }) {
             data={costVsConsumptionData}
             options={{
               responsive: true,
+              maintainAspectRatio: false,
               interaction: {
                 mode: 'index',
                 intersect: false,

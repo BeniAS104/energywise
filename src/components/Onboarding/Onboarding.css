@@ -9,8 +9,8 @@
   color: var(--primary-text);
 }
 .graycenter {
-  color: var(--gray);
-  text-align: center;
+  color: var(--black);
+  text-align: left;
   font-size: 18px;
 }
 .onboarding-navigation {

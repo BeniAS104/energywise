@@ -88,7 +88,7 @@ export default function LocationSelection({ data, updateData }) {
   return (
     <div className="location-selection-page">
       <h2 className="location-text">Your Location</h2>
-      <p className="subtitle">We need to know where you are to provide accurate energy costs for your region</p>
+      <p className="subtitle">We need to know where you are to provide accurate energy costs for your region.</p>
       
       <div className="selection-container">
         <div className="form-group">

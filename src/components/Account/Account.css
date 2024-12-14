@@ -1,7 +1,7 @@
 .account-page {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .account-section {
@@ -27,13 +27,16 @@
 
 .label {
   font-weight: 500;
-  width: 120px;
-  color: #666;
+  width: 90px;
+  color: var(--gray);
+}
+.account-section h3{
+  margin: 0.5rem 0;
 }
 
 .value {
   flex: 1;
-  color: #333;
+  color: var(--gray);
 }
 
 .action-buttons {
@@ -53,14 +56,16 @@
 
 .edit-button {
   background: var(--green);
-  color: var(--black);
+  color: #0e0e0e;
   flex: 1;
+  font-weight: 600;
 }
 
 .delete-button {
   background: var(--red);
-  color: var(--white);
+  color: #e0e0e0;
   flex: 1;
+  font-weight: 600;
 }
 
 .modal-overlay {
@@ -96,7 +101,6 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
 }
 
 .cancel-button {

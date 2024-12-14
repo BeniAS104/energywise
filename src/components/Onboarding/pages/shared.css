@@ -1,19 +1,19 @@
 .onboarding-page {
-  padding: 30px;
+  
   max-width: 800px;
-  margin: 0 auto;
+  margin: 3rem auto;
   animation: slideUp 0.5s ease-out;
 }
 
 .onboarding-page h2 {
   font-size: 28px;
   margin-bottom: 12px;
-  color: #333;
+  color: var(--black);
 }
 
 .subtitle {
   font-size: 18px;
-  color: #666;
+  
   
 }
 

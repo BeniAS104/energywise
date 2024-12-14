@@ -14,12 +14,12 @@
 
 .location-selection-page {
   max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 3rem auto 2rem;
+ 
 }
 
 .subtitle {
-  color: var(--gray);
+  color: var(--black);
 }
 
 .selection-container {
@@ -30,10 +30,10 @@
 
 .energy-cost-card {
   background: var(--white);
-  border: 2px solid #4CAF50;
+  border: 2px solid var(--green);
   border-radius: 12px;
   padding: 1.5rem;
-  margin-top: 1rem;
+  
   animation: fadeIn 0.3s ease-out;
 }
 
@@ -66,17 +66,17 @@
 .cost-value {
   font-size: 2rem;
   font-weight: 600;
-  color: #4CAF50;
+  color: var(--green);
 }
 
 .cost-unit {
   font-size: 1rem;
-  color: #666;
+  color: var(--gray);
   margin-left: 0.5rem;
 }
 
 .cost-disclaimer {
-  color: #888;
+  color: var(--gray);
   font-size: 0.85rem;
   text-align: center;
   margin: 0;
@@ -97,3 +97,6 @@
     transform: translateY(0);
   }
 } 
+.selection-container .form-group{
+  margin-bottom: 0;
+}

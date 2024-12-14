@@ -2,19 +2,23 @@
   --black: #0e0e0e;
   --white: #fdfdfd;
   --light-gray: #f5f5f5;
-  --gray: #666;
+  --gray: #595959;
   --green: #28a62c;
+  --dark-green: #308334;
   --red: #cf1a2c;
   --blue: #12356C;
+  --blue2: #209ecc;
 }
 
 [data-theme='dark'] {
   --black: #fdfdfd;
   --white: #252525;
   --light-gray: #404040;
-  --gray: #f5f5f5;
-  --green: #2ebd33;
-  --red: #cf1a2c;
+  --gray: #e4e4e4;
+  --green: #22ac29;
+  --red: #a01523;
+  --blue2: #e1c911;
+
 }
 * {
   box-sizing: border-box;
@@ -89,7 +93,7 @@ button {
 
 }
 .completion-message li {
-  margin: 25px 0;
+  margin: 20px 0;
   
 }
 .completion-message ul {
@@ -149,8 +153,6 @@ button {
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  font-weight: 500;
-  color: #333;
 }
 
 .form-group input,

@@ -56,9 +56,9 @@ export default function Appliances({ appliances, onDelete, onEdit, energyCost })
           <div className="appliances-header">
             <h2>Your Appliances</h2>
             <Link to="/add-appliance">
-              <button className="add-button">
+              <button className="appliances-add-button">
                 <span className="add-icon">+</span>
-                Add New Appliance
+                Add Appliance
               </button>
             </Link>
           </div>

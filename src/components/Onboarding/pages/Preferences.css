@@ -9,14 +9,14 @@
   background: var(--white);
   border: 2px solid #e0e0e0;
   border-radius: 12px;
-  padding: 24px;
+  padding: 16px;
   transition: all 0.2s ease;
 }
 
 .preference-card h3 {
   font-size: 18px;
-  margin-bottom: 16px;
-  color: #333;
+  margin: 0rem 0 0.8rem 0;
+  color: var(--black);
 }
 
 .toggle-group {

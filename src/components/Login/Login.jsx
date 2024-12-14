@@ -118,7 +118,7 @@ export default function Login() {
         </div>
 
         <div className="login-box">
-          <h2>{isLogin ? 'Welcome Back' : 'Create your Account'}</h2>
+          <h2>{isLogin ? 'Log In' : 'Create your Account'}</h2>
           
           {successMessage && (
             <p className="success-message">{successMessage}</p>

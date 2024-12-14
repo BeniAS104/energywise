@@ -189,7 +189,7 @@ export default function Reduction({ appliances, energyCost }) {
           <div className="empty-state">
             <div className="empty-state-content">
               <span className="empty-icon">📊</span>
-              <h4>No Consumption Data Available</h4>
+              <h3>No Consumption Data Available</h3>
               <p>Add your appliances to see your top energy consumers and get personalized reduction tips.</p>
               <Link to="/appliances">
                 <button className="add-button">
@@ -236,7 +236,7 @@ export default function Reduction({ appliances, energyCost }) {
           <div className="empty-state">
             <div className="empty-state-content">
               <span className="empty-icon">📈</span>
-              <h4>No Usage Patterns Yet</h4>
+              <h3>No Usage Patterns Yet</h3>
               <p>Start tracking your appliances to see your usage patterns and identify optimization opportunities.</p>
               <Link to="/appliances">
                 <button className="add-button">
@@ -276,7 +276,7 @@ export default function Reduction({ appliances, energyCost }) {
           <div className="empty-state">
             <div className="empty-state-content">
               <span className="empty-icon">💡</span>
-              <h4>No Optimization Insights Available</h4>
+              <h3>No Optimization Insights Available</h3>
               <p>Add your appliances to receive personalized optimization recommendations and potential savings calculations.</p>
               <Link to="/appliances">
                 <button className="add-button">
