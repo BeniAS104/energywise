@@ -33,7 +33,7 @@ export default function Header() {
 
   const getPageTitle = () => {
     const path = location.pathname.substring(1);
-    if (!path) return 'energywise.';
+    if (!path) return 'Energywise';
     
     return path
       .split('-')
@@ -60,7 +60,7 @@ export default function Header() {
           <Link to="/appliances">
             <img 
               src="/logopure.png" 
-              alt="EnergyWise Logo" 
+              alt="Energywise Logo" 
               className="logo"
             />
           </Link>
@@ -75,30 +75,43 @@ export default function Header() {
             className={`settings-button ${isPanelOpen ? 'active' : ''}`}
             onClick={() => setIsPanelOpen(!isPanelOpen)}
             aria-label="Settings"
+            aria-expanded={isPanelOpen}
+            aria-controls="settings-menu"
           >
             ⚙️
           </button>
         </div>
       </header>
 
-      <div className={`settings-panel-wrapper ${isPanelOpen ? 'open' : ''}`}>
+      <div 
+        className={`settings-panel-wrapper ${isPanelOpen ? 'open' : ''}`}
+        aria-hidden={!isPanelOpen}
+      >
         <div className="settings-panel">
           <div className="panel-header">
             
           </div>
           
 
-          <nav className="settings-menu">
+          <nav className="settings-menu" id="settings-menu">
             <div className="menu-section">
               <div className="menu-section-header">
                 <span>Personal Settings</span>
               </div>
               <div className="submenu">
-                <Link to="/account" className="menu-item">
+                <Link 
+                  to="/account" 
+                  className="menu-item"
+                  tabIndex={isPanelOpen ? 0 : -1}
+                >
                   <span className="menu-icon">👨🏻‍💻</span>
                   Account
                 </Link>
-                <Link to="/preferences" className="menu-item">
+                <Link 
+                  to="/preferences" 
+                  className="menu-item"
+                  tabIndex={isPanelOpen ? 0 : -1}
+                >
                   <span className="menu-icon">⚙️</span>
                   Preferences
                 </Link>
@@ -110,10 +123,18 @@ export default function Header() {
                 <span>Display</span>
               </div>
               <div className="submenu">
-                <div 
+                <button 
                   className="menu-item"
                   onClick={handleDarkModeToggle}
-                  style={{ cursor: 'pointer' }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleDarkModeToggle();
+                    }
+                  }}
+                  role="switch"
+                  aria-checked={isDarkMode}
+                  tabIndex={isPanelOpen ? 0 : -1}
                 >
                   <span className="menu-icon">🌙</span>
                   Dark Mode
@@ -122,10 +143,11 @@ export default function Header() {
                       type="checkbox"
                       checked={isDarkMode}
                       onChange={handleDarkModeToggle}
+                      tabIndex={-1}
                     />
                     <span className="toggle-slider"></span>
                   </label>
-                </div>
+                </button>
               </div>
             </div>
 
@@ -134,7 +156,11 @@ export default function Header() {
                 <span>Help</span>
               </div>
               <div className="submenu">
-                <Link to="/support" className="menu-item">
+                <Link 
+                  to="/support" 
+                  className="menu-item"
+                  tabIndex={isPanelOpen ? 0 : -1}
+                >
                   <span className="menu-icon">❓</span>
                   Support
                 </Link>
@@ -146,7 +172,11 @@ export default function Header() {
                 <span>Logout</span>
               </div>
               <div className="submenu">
-                <button onClick={handleSignOut} className="menu-item logout-button">
+                <button 
+                  onClick={handleSignOut} 
+                  className="menu-item logout-button"
+                  tabIndex={isPanelOpen ? 0 : -1}
+                >
                   <span className="menu-icon">🚪</span>
                   Logout
                 </button>

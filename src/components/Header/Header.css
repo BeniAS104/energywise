@@ -179,7 +179,12 @@
   transition: background-color 0.2s;
   border-radius: 10px;
 }
-
+button.menu-item {
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 .menu-icon {
   margin-right: 0.75rem;

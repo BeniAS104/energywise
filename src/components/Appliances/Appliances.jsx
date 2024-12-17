@@ -55,11 +55,14 @@ export default function Appliances({ appliances, onDelete, onEdit, energyCost })
         <>
           <div className="appliances-header">
             <h2>Your Appliances</h2>
-            <Link to="/add-appliance">
-              <button className="appliances-add-button">
-                <span className="add-icon">+</span>
-                Add Appliance
-              </button>
+            <Link 
+              to="/add-appliance" 
+              className="appliances-add-button"
+              role="button"
+              aria-label="Add new appliance"
+            >
+              <span className="add-icon" aria-hidden="true">+</span>
+              Add Appliance
             </Link>
           </div>
           
@@ -72,14 +75,16 @@ export default function Appliances({ appliances, onDelete, onEdit, energyCost })
                     <button 
                       onClick={() => handleEditClick(appliance)}
                       className="action-button edit"
+                      aria-label={`Edit ${appliance.name}`}
                     >
-                      ✏️
+                      <span aria-hidden="true">✏️</span>
                     </button>
                     <button 
                       onClick={() => handleDeleteClick(appliance)}
                       className="action-button delete"
+                      aria-label={`Delete ${appliance.name}`}
                     >
-                      ❌
+                      <span aria-hidden="true">❌</span>
                     </button>
                   </div>
                 </div>
@@ -88,7 +93,7 @@ export default function Appliances({ appliances, onDelete, onEdit, energyCost })
                   <p>Power: {appliance.watts}W</p>
                   <p>Usage: {appliance.hoursPerDay}h/day, {appliance.daysPerWeek}days/week</p>
                   <p className="cost-estimate">
-                    Estimated monthly cost: ${calculateMonthlyCost(appliance)}
+                   <p className="cost-estimate-text">Estimated monthly cost:</p>  ${calculateMonthlyCost(appliance)}
                   </p>
                 </div>
               </div>

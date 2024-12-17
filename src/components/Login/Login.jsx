@@ -109,28 +109,31 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container" role="main">
       <div className="login-content">
-        <div className="login-header">
-            <img src="logopure.png" alt="energywiselogo" className="logologin" />
-          <h1>energywise.</h1>
-          <p className="tagline">Smart energy monitoring for a sustainable future</p>
+        <div className="login-header" role="banner">
+          <img src="logopure.png" alt="Energywise logo" className="logologin" />
+          <h1>Energywise</h1>
+          <p className="tagline" role="contentinfo">Smart energy monitoring for a sustainable future</p>
         </div>
 
-        <div className="login-box">
-          <h2>{isLogin ? 'Log In' : 'Create your Account'}</h2>
+        <div className="login-box" role="region" aria-labelledby="auth-title">
+          <h2 id="auth-title">{isLogin ? 'Log In' : 'Create your Account'}</h2>
           
           {successMessage && (
-            <p className="success-message">{successMessage}</p>
+            <p className="success-message" role="alert" aria-live="polite">
+              {successMessage}
+            </p>
           )}
           
           {errors.submit && (
-            <div className="error-container">
+            <div className="error-container" role="alert" aria-live="assertive">
               <p className="error-message">{errors.submit}</p>
               {isLogin && errors.email === 'Email not registered' && (
                 <button 
                   className="switch-auth-mode"
                   onClick={() => setIsLogin(false)}
+                  aria-label="Switch to create account form"
                 >
                   Create an account instead
                 </button>
@@ -138,31 +141,47 @@ export default function Login() {
             </div>
           )}
           
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} role="form" aria-label={isLogin ? 'Login form' : 'Sign up form'}>
             <div className="form-group">
               <input
                 type="email"
                 name="email"
+                id="email"
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Email"
                 className={errors.email ? 'error' : ''}
                 required
+                aria-required="true"
+                aria-invalid={errors.email ? 'true' : 'false'}
+                aria-describedby={errors.email ? 'email-error' : undefined}
               />
-              {errors.email && <span className="field-error">{errors.email}</span>}
+              {errors.email && (
+                <span className="field-error" id="email-error" role="alert">
+                  {errors.email}
+                </span>
+              )}
             </div>
             
             <div className="form-group">
               <input
                 type="password"
                 name="password"
+                id="password"
                 value={formData.password}
                 onChange={handleInputChange}
                 placeholder="Password"
                 className={errors.password ? 'error' : ''}
                 required
+                aria-required="true"
+                aria-invalid={errors.password ? 'true' : 'false'}
+                aria-describedby={errors.password ? 'password-error' : undefined}
               />
-              {errors.password && <span className="field-error">{errors.password}</span>}
+              {errors.password && (
+                <span className="field-error" id="password-error" role="alert">
+                  {errors.password}
+                </span>
+              )}
             </div>
 
             {!isLogin && (
@@ -170,19 +189,29 @@ export default function Login() {
                 <input
                   type="password"
                   name="confirmPassword"
+                  id="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   placeholder="Confirm Password"
                   className={errors.confirmPassword ? 'error' : ''}
                   required
+                  aria-required="true"
+                  aria-invalid={errors.confirmPassword ? 'true' : 'false'}
+                  aria-describedby={errors.confirmPassword ? 'confirm-password-error' : undefined}
                 />
                 {errors.confirmPassword && (
-                  <span className="field-error">{errors.confirmPassword}</span>
+                  <span className="field-error" id="confirm-password-error" role="alert">
+                    {errors.confirmPassword}
+                  </span>
                 )}
               </div>
             )}
             
-            <button type="submit" className="submit-button">
+            <button 
+              type="submit" 
+              className="submit-button"
+              aria-label={isLogin ? 'Log in to your account' : 'Create new account'}
+            >
               {isLogin ? 'Login' : 'Sign Up'}
             </button>
           </form>
@@ -197,6 +226,7 @@ export default function Login() {
                 setErrors({});
                 setSuccessMessage('');
               }}
+              aria-label={isLogin ? 'Switch to sign up form' : 'Switch to login form'}
             >
               {isLogin ? 'Sign Up' : 'Login'}
             </button>

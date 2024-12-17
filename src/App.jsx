@@ -1,19 +1,22 @@
+import { lazy, Suspense } from 'react';
 import { useState, useEffect } from 'react'
 import './App.css'
 import { auth, database } from './firebase';
 import { ref, set, get, push, remove, update } from 'firebase/database';
 import { Routes, Route, Navigate, NavLink } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
-import Analytics from './components/Analytics/Analytics';
-import Appliances from './components/Appliances/Appliances';
-import Reduction from './components/Reduction/Reduction';
-import AddAppliance from './components/AddAppliance/AddAppliance';
-import Onboarding from './components/Onboarding/Onboarding';
 import Login from './components/Login/Login';
-import Preferences from './components/Onboarding/pages/Preferences';
 import Header from './components/Header/Header';
-import Account from './components/Account/Account';
+import Onboarding from './components/Onboarding/Onboarding';
 import { energyCosts } from './data/energyCosts';
+
+// Convert these imports to lazy
+const Analytics = lazy(() => import('./components/Analytics/Analytics'));
+const Appliances = lazy(() => import('./components/Appliances/Appliances'));
+const Reduction = lazy(() => import('./components/Reduction/Reduction'));
+const AddAppliance = lazy(() => import('./components/AddAppliance/AddAppliance'));
+const Account = lazy(() => import('./components/Account/Account'));
+const Preferences = lazy(() => import('./components/Onboarding/pages/Preferences'));
 
 function App() {
   const [user, setUser] = useState(null);
@@ -246,19 +249,20 @@ function App() {
   if (loading) {
     return (
       <div className="loading-container">
-        <img src="/logopure.png" alt="EnergyWise Logo" className="breathing-logo" />
+        <img src="/logopure.png" alt="Energywise Logo" className="breathing-logo" />
       </div>
     );
   }
 
   return (
     <div className="app">
+     
       {!user ? (
         <Login />
       ) : !hasCompletedOnboarding ? (
         <Onboarding completeOnboarding={completeOnboarding} />
       ) : (
-        <div className="dashboard">
+        <div className="dashboard" id="main-content">
           <Header />
           <nav className="menu-nav">
             <ul>
@@ -270,60 +274,66 @@ function App() {
           </nav>
 
           <div className="content">
-            <Routes>
-              <Route 
-                path="/analytics" 
-                element={
-                  <Analytics 
-                    appliances={appliances} 
-                    energyCost={energyCosts[userLocation.country]?.cost || 0.15}
-                  />
-                } 
-              />
-              <Route 
-                path="/appliances" 
-                element={
-                  <Appliances 
-                    appliances={appliances}
-                    onDelete={deleteAppliance}
-                    onEdit={editAppliance}
-                    energyCost={energyCosts[userLocation.country]?.cost || 0.15}
-                  />
-                } 
-              />
-              <Route 
-                path="/reduction" 
-                element={
-                  <Reduction 
-                    appliances={appliances}
-                    energyCost={energyCosts[userLocation.country]?.cost || 0.15}
-                  />
-                } 
-              />
-              <Route path="/add-appliance" element={<AddAppliance addAppliance={addAppliance} />} />
-              <Route 
-                path="/preferences" 
-                element={
-                  <Preferences 
-                    data={userPreferences}
-                    updateData={updateUserPreferences}
-                  />
-                } 
-              />
-              <Route 
-                path="/account" 
-                element={
-                  <Account 
-                    userData={{
-                      location: userLocation,
-                      preferences: userPreferences
-                    }}
-                    onUpdateUserData={updateUserData}
-                  />
-                } 
-              />
-              <Route path="*" element={<Navigate to="/analytics" replace />} />
-            </Routes>
+            <Suspense fallback={
+              <div className="loading-container">
+                <img src="/logopure.png" alt="Energywise Logo" className="breathing-logo" />
+              </div>
+            }>
+              <Routes>
+                <Route 
+                  path="/analytics" 
+                  element={
+                    <Analytics 
+                      appliances={appliances} 
+                      energyCost={energyCosts[userLocation.country]?.cost || 0.15}
+                    />
+                  } 
+                />
+                <Route 
+                  path="/appliances" 
+                  element={
+                    <Appliances 
+                      appliances={appliances}
+                      onDelete={deleteAppliance}
+                      onEdit={editAppliance}
+                      energyCost={energyCosts[userLocation.country]?.cost || 0.15}
+                    />
+                  } 
+                />
+                <Route 
+                  path="/reduction" 
+                  element={
+                    <Reduction 
+                      appliances={appliances}
+                      energyCost={energyCosts[userLocation.country]?.cost || 0.15}
+                    />
+                  } 
+                />
+                <Route path="/add-appliance" element={<AddAppliance addAppliance={addAppliance} />} />
+                <Route 
+                  path="/preferences" 
+                  element={
+                    <Preferences 
+                      data={userPreferences}
+                      updateData={updateUserPreferences}
+                    />
+                  } 
+                />
+                <Route 
+                  path="/account" 
+                  element={
+                    <Account 
+                      userData={{
+                        location: userLocation,
+                        preferences: userPreferences
+                      }}
+                      onUpdateUserData={updateUserData}
+                    />
+                  } 
+                />
+                <Route path="*" element={<Navigate to="/analytics" replace />} />
+              </Routes>
+            </Suspense>
           </div>
         </div>
       )}

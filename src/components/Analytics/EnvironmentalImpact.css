@@ -1,0 +1,49 @@
+.environmental-impact {
+  background: var(--white);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.impact-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.impact-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: var(--white);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.impact-icon {
+  font-size: 2rem;
+}
+
+.impact-data h4 {
+  margin: 0;
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+.impact-value {
+  margin: 5px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--green);
+}
+
+.impact-description {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+#impact-title {
+  margin-top: 0;
+}

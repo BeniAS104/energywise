@@ -87,32 +87,38 @@ export default function LocationSelection({ data, updateData }) {
 
   return (
     <div className="location-selection-page">
-      <h2 className="location-text">Your Location</h2>
-      <p className="subtitle">We need to know where you are to provide accurate energy costs for your region.</p>
-      
-      <div className="selection-container">
+      <div className="selection-container" role="form" aria-labelledby="location-title">
+        <h2 id="location-title" className="location-text">Your Location</h2>
+        <p className="subtitle" id="location-description">We need to know where you are to provide accurate energy costs for your region.</p>
+        
         <div className="form-group">
-          <label htmlFor="region">Filter by region</label>
+          <label htmlFor="region" id="region-label">Filter by region</label>
           <select
             id="region"
             value={selectedRegion}
             onChange={(e) => setSelectedRegion(e.target.value)}
             className="select-input"
+            aria-labelledby="region-label"
+            aria-describedby="region-description"
           >
             <option value="">All regions</option>
             {regions.map(region => (
               <option key={region} value={region}>{region}</option>
             ))}
           </select>
+          <span id="region-description" className="sr-only">Select a region to filter available countries</span>
         </div>
 
         <div className="form-group">
-          <label htmlFor="country">Select your country</label>
+          <label htmlFor="country" id="country-label">Select your country</label>
           <select
             id="country"
             value={data.country || ''}
             onChange={handleCountryChange}
             className="select-input"
+            aria-labelledby="country-label"
+            aria-required="true"
+            aria-describedby="country-description"
           >
             <option value="">Select a country</option>
             {filteredCountries.map(country => (
@@ -121,6 +127,7 @@ export default function LocationSelection({ data, updateData }) {
               </option>
             ))}
           </select>
+          <span id="country-description" className="sr-only">Choose your country to get accurate energy costs</span>
         </div>
 
         {data.country && data.energyCost > 0 && (

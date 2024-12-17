@@ -8,6 +8,7 @@
   --red: #cf1a2c;
   --blue: #12356C;
   --blue2: #209ecc;
+  --focus-outline: 3px solid #4A90E2;
 }
 
 [data-theme='dark'] {
@@ -101,17 +102,9 @@ button {
   padding: 0 20px;
 }
 .completion-message h3 {
-  margin: 30px 0;
+  margin: 30px 0 0;
 }
-/* Messages */
-.error-message {
-  color: #dc3545;
-  background-color: #fff5f5;
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
+
 
 .success-message {
   color: #198754;
@@ -169,14 +162,6 @@ button {
 
 
 /* Shared Message Styles */
-.error-message {
-  color: #dc3545;
-  background-color: #fff5f5;
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
 
 .loading-message {
   text-align: center;
@@ -205,3 +190,25 @@ button {
   padding-bottom: 1rem;
   border-bottom: 1px solid #eee;
 }
+
+/* Only show focus styles when using keyboard */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+}
+
+/* For buttons and interactive elements */
+button:focus-visible, 
+a:focus-visible, 
+input:focus-visible, 
+select:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+}
+
+

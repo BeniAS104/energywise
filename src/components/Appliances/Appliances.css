@@ -36,11 +36,15 @@
 }
 
 .action-button {
-  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #252525;
   border: none;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
+  padding: 7px;
+  border-radius: 100px;
+
 }
 
 
@@ -48,7 +52,7 @@
   color: #666;
 }
 
-.appliance-details p {
+.appliance-details p:not(.cost-estimate-text) {
   margin: 8px 0;
 }
 
@@ -56,8 +60,17 @@
   color: var(--green);
   font-weight: 700;
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
+.cost-estimate-text {
+  color: var(--black);
+  margin: 0;
+  padding: 0;
+  
+}
 /* Modal Styles */
 .delete-modal-content {
   text-align: center;

@@ -96,10 +96,10 @@ body {
 
 
 .error-message {
-  color: #dc3545;
+  color: var(--red);
   margin-bottom: 15px;
   padding: 10px;
-  background-color: #fff5f5;
+  background-color: #f2eaea;
   border-radius: 8px;
   text-align: center;
   animation: fadeIn 0.2s ease-out;
@@ -175,6 +175,17 @@ body {
   background-color: var(--light-gray);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  
 
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .menu-nav ul {

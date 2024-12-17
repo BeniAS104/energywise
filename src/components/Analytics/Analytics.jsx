@@ -13,6 +13,8 @@ import {
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import './Analytics.css';
+import EnvironmentalImpact from './EnvironmentalImpact';
+import './EnvironmentalImpact.css';
 
 // Register ChartJS components
 ChartJS.register(
@@ -236,24 +238,38 @@ export default function Analytics({ appliances, energyCost }) {
   };
 
   return (
-    <div className="analytics-container">
-      <h2>Energy Analytics</h2>
+    <div className="analytics-container" role="main" aria-label="Energy Analytics Dashboard">
+      <h2 id="analytics-title">Energy Analytics</h2>
       
-      <div className="summary-cards">
-        <div className="summary-card">
+      <div className="summary-cards" role="region" aria-labelledby="analytics-title">
+        <div 
+          className="summary-card" 
+          role="article" 
+          aria-label="Monthly Consumption Summary"
+          tabIndex={0}
+        >
           <h3>Monthly Consumption</h3>
-          <p className="summary-value">{totalMonthlyConsumption.toFixed(2)} kWh</p>
-          <p className="comparison">
+          <p className="summary-value" aria-label={`${totalMonthlyConsumption.toFixed(2)} kilowatt hours per month`}>
+            {totalMonthlyConsumption.toFixed(2)} kWh
+          </p>
+          <p className="comparison" role="status">
             {totalMonthlyConsumption < avgMonthlyConsumption 
               ? '🌟 Below average' 
               : '⚠️ Above average'}
           </p>
         </div>
         
-        <div className="summary-card">
+        <div 
+          className="summary-card"
+          role="article"
+          aria-label="Monthly Cost Summary"
+          tabIndex={0}
+        >
           <h3>Monthly Cost</h3>
-          <p className="summary-value">${totalMonthlyCost.toFixed(2)}</p>
-          <p className="comparison">
+          <p className="summary-value" aria-label={`$${totalMonthlyCost.toFixed(2)} per month`}>
+            ${totalMonthlyCost.toFixed(2)}
+          </p>
+          <p className="comparison" role="status">
             {totalMonthlyCost < avgMonthlyCost 
               ? '💰 Saving money' 
               : '💸 Higher than average'}
@@ -262,54 +278,92 @@ export default function Analytics({ appliances, energyCost }) {
       </div>
 
       <div className="charts-grid">
-        <div className="chart-container">
+        <div 
+          className="chart-container" 
+          role="region" 
+          aria-label="Appliance Energy Distribution Chart"
+          tabIndex={0}
+        >
           <h3>Appliance Energy Distribution</h3>
           <Doughnut 
             data={applianceConsumptionData}
-            options={doughnutOptions}
+            options={{
+              ...doughnutOptions,
+              plugins: {
+                ...doughnutOptions.plugins,
+                accessibility: {
+                  enabled: true,
+                  announceOnFocus: true
+                }
+              }
+            }}
           />
         </div>
 
-        <div className="chart-container">
+        <div className="chart-container" role="region" aria-label="Consumption Comparison Chart" tabIndex={0}>
           <h3>Consumption Comparison</h3>
           <Bar 
             data={comparisonData}
-            options={chartOptions}
+            options={{
+              ...chartOptions,
+              plugins: {
+                ...chartOptions.plugins,
+                accessibility: {
+                  enabled: true,
+                  announceOnFocus: true
+                }
+              }
+            }}
           />
         </div>
 
-        <div className="chart-container">
+        <EnvironmentalImpact monthlyConsumption={totalMonthlyConsumption} />
+
+        <div className="chart-container" role="region" aria-label="Daily Usage Pattern Chart" tabIndex={0}>
           <h3>Daily Usage Pattern</h3>
           <Line 
             data={dailyUsageData}
-            options={chartOptions}
+            options={{
+              ...chartOptions,
+              plugins: {
+                ...chartOptions.plugins,
+                accessibility: {
+                  enabled: true,
+                  announceOnFocus: true
+                }
+              },
+              scales: {
+                ...chartOptions.scales,
+                y: {
+                  ...chartOptions.scales.y,
+                  title: {
+                    display: true,
+                    text: 'Hours per Day'
+                  },
+                  max: 24,
+                  min: 0
+                }
+              }
+            }}
           />
         </div>
 
-        <div className="chart-container">
+        <div className="chart-container" role="region" aria-label="Cost versus Consumption Trend Chart" tabIndex={0}>
           <h3>Cost vs Consumption Trend</h3>
           <Line 
             data={costVsConsumptionData}
             options={{
-              responsive: true,
-              maintainAspectRatio: false,
-              interaction: {
-                mode: 'index',
-                intersect: false,
-              },
+              ...chartOptions,
               plugins: {
-                legend: {
-                  position: 'top',
-                },
-                tooltip: {
-                  mode: 'index',
-                  intersect: false
+                ...chartOptions.plugins,
+                accessibility: {
+                  enabled: true,
+                  announceOnFocus: true
                 }
               },
               scales: {
                 consumption: {
                   type: 'linear',
-                  display: true,
                   position: 'left',
                   title: {
                     display: true,
@@ -318,14 +372,10 @@ export default function Analytics({ appliances, energyCost }) {
                 },
                 cost: {
                   type: 'linear',
-                  display: true,
                   position: 'right',
                   title: {
                     display: true,
                     text: 'Cost ($)'
-                  },
-                  grid: {
-                    drawOnChartArea: false
                   }
                 }
               }
