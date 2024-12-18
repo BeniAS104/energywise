@@ -45,7 +45,7 @@
   margin-top: 1rem;
 }
 
-.edit-button, .delete-button {
+.edit-button {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 8px;
@@ -61,12 +61,6 @@
   font-weight: 600;
 }
 
-.delete-button {
-  background: var(--red);
-  color: #e0e0e0;
-  flex: 1;
-  font-weight: 600;
-}
 
 .modal-overlay {
   position: fixed;
@@ -95,22 +89,6 @@
   margin-top: 1.5rem;
 }
 
-.cancel-button, .confirm-delete-button {
-  flex: 1;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.cancel-button {
-  background: #f0f0f0;
-}
-
-.confirm-delete-button {
-  background: #ff4444;
-  color: var(--white);
-}
 
 .select-input {
   padding: 8px 12px;

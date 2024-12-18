@@ -89,23 +89,8 @@
   margin-top: 50px;
 }
 
-.cancel-button {
-  padding: 8px 16px;
-  background: var(--black);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-}
 
-.delete-button {
-  padding: 8px 16px;
-  background: var(--red);
-  color: var(--white);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+
 
 .save-button {
   padding: 8px 16px;

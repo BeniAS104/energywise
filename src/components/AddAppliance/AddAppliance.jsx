@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+
 export default function AddAppliance({ addAppliance }) {
   const [appliance, setAppliance] = useState({
     name: '',

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Modal from '../Modal/Modal';
+import "../Account/Account.css"
 import './Appliances.css';
 
 export default function Appliances({ appliances, onDelete, onEdit, energyCost }) {
